@@ -5,15 +5,16 @@ from flask_restful import Resource
 
 from config import create_app, db, api
 
+
 class Health(Resource):
+    """Server health check route"""
+
     def get(self):
-        response = {
-            "status": "ok"
-        }
-        
+        response = {"status": "ok"}
+
         return response, 200
-    
-    
+
+
 api.add_resource(Health, "/health", endpoint="health")
 
 #  App must be created after api resources are added, as the api.init_app is in create_app
