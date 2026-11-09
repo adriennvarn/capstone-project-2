@@ -1,6 +1,6 @@
 # Custom
-*.odt#
-*.docx#
+*.odt*
+*.docx*
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
