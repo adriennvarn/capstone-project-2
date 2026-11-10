@@ -149,19 +149,19 @@ class Projects(Resource):
         tags = [Tag.query.filter(Tag.id == id).first() for id in json.get("tag_ids")]
         for tag in tags:
             project.tags.append(tag)
-        
+
         try:
             db.session.add(project)
             db.session.commit()
             return ProjectSchema().dump(project), 201
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
-    
+
     @role_required("admin")
     def patch(self, id):
         json = request.get_json()
         project = Project.query.filter(Project.id == id).first()
-        
+
         project.name = json.get("name") or project.name
         project.description = json.get("description") or project.description
         project.due_date = (
@@ -170,27 +170,27 @@ class Projects(Resource):
             else project.due_date
         )
         project.complete = json.get("complete") or project.complete
-        
+
         if json.get("tag_ids"):
             #  Remove existing tags and start fresh
             project.tags = []
             for tag_id in json.get("tag_ids"):
                 tag = Tag.query.filter(Tag.id == tag_id).first()
                 project.tags.append(tag)
-        
+
         if json.get("task_ids"):
             #  Remove existing tasks and start fresh
             project.tasks = []
             for task_id in json.get("task_ids"):
                 task = Task.query.filter(Task.id == task_id).first()
                 project.tasks.append(task)
-                
+
         try:
             db.session.commit()
             return ProjectSchema().dump(project), 200
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
-    
+
     @role_required("admin")
     def delete(self, id):
         project = Project.query.filter(Project.id == id).first()
@@ -199,16 +199,21 @@ class Projects(Resource):
             db.session.commit()
             return {}, 204
         except:
-            return {"errors": "500 Internal Server Error: Could not delete Project"}, 500
+            return {
+                "errors": "500 Internal Server Error: Could not delete Project"
+            }, 500
 
 
 class Tasks(Resource):
     """Supports GET, POST, PATCH, DELETE.\n
     Manages given task by ID."""
 
-    def get(self, id):
-        task = Task.query.filter(Task.id == id).first()
-        return TaskSchema().dump(task), 200
+    def get(self, id=None):
+        if id:
+            task = Task.query.filter(Task.id == id).first()
+            return TaskSchema().dump(task), 200
+
+        return [TaskSchema().dump(task) for task in Task.query.all()]
 
     @role_required("manager", "admin")
     def post(self):
@@ -288,7 +293,8 @@ class Tasks(Resource):
 
 
 class Users(Resource):
-    """GET: Access a list of users.
+    """Supports GET, POST, PATCH, DELETE.\n
+    GET: Access a list of users.
     Optionally, specify an ID for a specific user."""
 
     def get(self, id=None):
@@ -302,6 +308,57 @@ class Users(Resource):
             return [UserSchema().dump(user) for user in users]
 
         return all_users(), 200
+
+    @role_required("admin")
+    def post(self):
+        json = request.get_json()
+
+        user = User(
+            name=json.get("name"),
+            email=json.get("email"),
+            role=json.get("role"),
+        )
+        user.password_hash = json.get("password")
+
+        try:
+            db.session.add(user)
+            db.session.commit()
+            return UserSchema().dump(user), 201
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+
+    @role_required("admin")
+    def patch(self, id):
+        json = request.get_json()
+        user = User.query.filter(User.id == id).first()
+
+        user.name = json.get("name") or user.name
+        user.email = json.get("email") or user.email
+        user.role = json.get("role") or user.role
+        if json.get("password"):
+            user.password_hash = json.get("password")
+
+        if json.get("task_ids"):
+            user.tasks = []
+            for task_id in json.get("task_ids"):
+                task = Task.query.filter(Task.id == task_id).first()
+                user.tasks.append(task)
+
+        try:
+            db.session.commit()
+            return UserSchema().dump(user), 200
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+
+    @role_required("admin")
+    def delete(self, id):
+        user = User.query.filter(User.id == id).first()
+        try:
+            db.session.delete(user)
+            db.session.commit()
+            return {}, 204
+        except:
+            return {"errors": "500 Internal Server Error: Could not delete User"}, 500
 
 
 api.add_resource(Health, "/health", endpoint="health")
