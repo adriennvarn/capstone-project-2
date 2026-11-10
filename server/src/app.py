@@ -20,6 +20,7 @@ from models import *
 INTEGRITY_ERROR_RESPONSE = {"errors": ["422 Unprocessable Entity"]}, 422
 DATE_FORMAT = "%Y-%m-%d"
 
+
 def role_required(*allowed_roles):
     """Automatically verify role permissions."""
 
@@ -104,9 +105,9 @@ class Login(Resource):
 
 
 class Projects(Resource):
-    """GET: Access all projects with optional pagination.
-    Optionally, provide an ID to return a specific project.
-    POST: Add a new project."""
+    """Supports GET, POST, PATCH, DELETE.\n
+    GET: Access all projects with optional pagination.
+    Optionally, provide an ID to return a specific project."""
 
     def get(self, id=None):
         #  If an ID is provided, return that specific project.
@@ -135,12 +136,75 @@ class Projects(Resource):
 
         return response, 200
 
+    @role_required("admin")
     def post(self):
-        return {"error": "Not yet implemented"}, 500
+        json = request.get_json()
+
+        project = Project(
+            name=json.get("name"),
+            description=json.get("description"),
+            due_date=datetime.strptime(json.get("due_date"), DATE_FORMAT),
+        )
+
+        tags = [Tag.query.filter(Tag.id == id).first() for id in json.get("tag_ids")]
+        for tag in tags:
+            project.tags.append(tag)
+        
+        try:
+            db.session.add(project)
+            db.session.commit()
+            return ProjectSchema().dump(project), 201
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+    
+    @role_required("admin")
+    def patch(self, id):
+        json = request.get_json()
+        project = Project.query.filter(Project.id == id).first()
+        
+        project.name = json.get("name") or project.name
+        project.description = json.get("description") or project.description
+        project.due_date = (
+            datetime.strptime(json.get("due_date"), DATE_FORMAT)
+            if json.get("due_date")
+            else project.due_date
+        )
+        project.complete = json.get("complete") or project.complete
+        
+        if json.get("tag_ids"):
+            #  Remove existing tags and start fresh
+            project.tags = []
+            for tag_id in json.get("tag_ids"):
+                tag = Tag.query.filter(Tag.id == tag_id).first()
+                project.tags.append(tag)
+        
+        if json.get("task_ids"):
+            #  Remove existing tasks and start fresh
+            project.tasks = []
+            for task_id in json.get("task_ids"):
+                task = Task.query.filter(Task.id == task_id).first()
+                project.tasks.append(task)
+                
+        try:
+            db.session.commit()
+            return ProjectSchema().dump(project), 200
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+    
+    @role_required("admin")
+    def delete(self, id):
+        project = Project.query.filter(Project.id == id).first()
+        try:
+            db.session.delete(project)
+            db.session.commit()
+            return {}, 204
+        except:
+            return {"errors": "500 Internal Server Error: Could not delete Project"}, 500
 
 
 class Tasks(Resource):
-    """Access a given task by ID"""
+    """Supports GET, POST, PATCH, DELETE.\n
+    Manages given task by ID."""
 
     def get(self, id):
         task = Task.query.filter(Task.id == id).first()
@@ -153,7 +217,7 @@ class Tasks(Resource):
         task = Task(
             name=json.get("name"),
             description=json.get("description"),
-            due_date=datetime.strptime(json.get("due_date"), DATE_FORMAT)
+            due_date=datetime.strptime(json.get("due_date"), DATE_FORMAT),
         )
 
         project = Project.query.filter(Project.id == json.get("project_id")).first()
@@ -181,7 +245,11 @@ class Tasks(Resource):
         task = Task.query.filter(Task.id == id).first()
         task.name = json.get("name") or task.name
         task.description = json.get("description") or task.description
-        task.due_date = datetime.strptime(json.get("due_date"), DATE_FORMAT) if json.get("due_date") else task.due_date
+        task.due_date = (
+            datetime.strptime(json.get("due_date"), DATE_FORMAT)
+            if json.get("due_date")
+            else task.due_date
+        )
         task.complete = json.get("complete") or task.complete
 
         if json.get("project_id"):
@@ -204,7 +272,7 @@ class Tasks(Resource):
 
         try:
             db.session.commit()
-            return TaskSchema().dump(task), 201
+            return TaskSchema().dump(task), 200
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
 
