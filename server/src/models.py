@@ -25,6 +25,9 @@ class Project(db.Model):
     tasks = db.relationship(
         "Task", back_populates="project", cascade="all, delete-orphan"
     )
+    
+    def __repr__(self):
+        return f"Project(name={self.name}, tags={[tag.name for tag in self.tags]}, tasks={[task.name for task in self.tasks]})"
 
 
 class Task(db.Model):
@@ -41,6 +44,9 @@ class Task(db.Model):
 
     users = db.relationship("User", secondary="user_assignments", back_populates="tasks")
     tags = db.relationship("Tag", secondary="task_tags", back_populates="tasks")
+    
+    def __repr__(self):
+        return f"Task(name={self.name}, project={self.project.name}, users={[user.name for user in self.users]}, tags={[tag.name for tag in self.tags]})"
 
 
 class User(db.Model):
@@ -65,6 +71,9 @@ class User(db.Model):
 
     def authenticate(self, password):
         return bcrypt.check_password_hash(self._password_hash, password.encode("utf-8"))
+    
+    def __repr__(self):
+        return f"User(name={self.name}, email={self.email}, tasks={[task.name for task in self.tasks]})"
 
 
 class Tag(db.Model):
@@ -77,6 +86,9 @@ class Tag(db.Model):
         "Project", secondary="project_tags", back_populates="tags"
     )
     tasks = db.relationship("Task", secondary="task_tags", back_populates="tags")
+    
+    def __repr__(self):
+        return f"Tag(name={self.name})"
 
 
 user_assignments = db.Table(
