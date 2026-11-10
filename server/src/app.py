@@ -8,16 +8,21 @@ from flask_jwt_extended import (
     verify_jwt_in_request,
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
+from jwt.exceptions import ExpiredSignatureError
 from sqlalchemy.exc import IntegrityError
 
 from functools import wraps
+from datetime import datetime
 
 from config import create_app, db, api
 from models import *
 
+INTEGRITY_ERROR_RESPONSE = {"errors": ["422 Unprocessable Entity"]}, 422
+DATE_FORMAT = "%Y-%m-%d"
 
 def role_required(*allowed_roles):
     """Automatically verify role permissions."""
+
     def decorator(fn):
         @wraps(fn)
         def wrapper(*args, **kwargs):
@@ -32,7 +37,9 @@ def role_required(*allowed_roles):
 
             # Check if the user exists and has the allowed roles
             if not current_user or current_user.role not in allowed_roles:
-                return {"errors": ["403 Forbidden: Higher permission role required"]}, 403
+                return {
+                    "errors": ["403 Forbidden: Higher permission role required"]
+                }, 403
 
             # If authorized, proceed to the actual resource method
             return fn(*args, **kwargs)
@@ -74,9 +81,8 @@ class Signup(Resource):
             db.session.commit()
             access_token = create_access_token(identity=str(user.id))
             return {"token": access_token, "user": UserSchema().dump(user)}, 201
-        except IntegrityError as err:
-            print(err)
-            return {"errors": ["422 Unprocessable Entity"]}, 422
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
 
 
 class Login(Resource):
@@ -140,6 +146,78 @@ class Tasks(Resource):
         task = Task.query.filter(Task.id == id).first()
         return TaskSchema().dump(task), 200
 
+    @role_required("manager", "admin")
+    def post(self):
+        json = request.get_json()
+
+        task = Task(
+            name=json.get("name"),
+            description=json.get("description"),
+            due_date=datetime.strptime(json.get("due_date"), DATE_FORMAT)
+        )
+
+        project = Project.query.filter(Project.id == json.get("project_id")).first()
+        users = [
+            User.query.filter(User.id == id).first() for id in json.get("user_ids")
+        ]
+        tags = [Tag.query.filter(Tag.id == id).first() for id in json.get("tag_ids")]
+
+        task.project = project
+        for user in users:
+            task.users.append(user)
+        for tag in tags:
+            task.tags.append(tag)
+
+        try:
+            db.session.add(task)
+            db.session.commit()
+            return TaskSchema().dump(task), 201
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+
+    @role_required("manager", "admin")
+    def patch(self, id):
+        json = request.get_json()
+        task = Task.query.filter(Task.id == id).first()
+        task.name = json.get("name") or task.name
+        task.description = json.get("description") or task.description
+        task.due_date = datetime.strptime(json.get("due_date"), DATE_FORMAT) if json.get("due_date") else task.due_date
+        task.complete = json.get("complete") or task.complete
+
+        if json.get("project_id"):
+            project = Project.query.filter(Project.id == json.get("project_id")).first()
+            task.project = project
+        if json.get("user_ids"):
+            #  Remove existing users and start fresh, as provided list will include all selected users,
+            # not just changed ones.
+            task.users = []
+            for user_id in json.get("user_ids"):
+                user = User.query.filter(User.id == user_id).first()
+                task.users.append(user)
+        if json.get("tag_ids"):
+            #  Remove existing tags and start fresh, as provided list will include all selected users,
+            # not just changed ones.
+            task.tags = []
+            for tag_id in json.get("tag_ids"):
+                tag = Tag.query.filter(Tag.id == tag_id).first()
+                task.tags.append(tag)
+
+        try:
+            db.session.commit()
+            return TaskSchema().dump(task), 201
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+
+    @role_required("manager", "admin")
+    def delete(self, id):
+        task = Task.query.filter(Task.id == id).first()
+        try:
+            db.session.delete(task)
+            db.session.commit()
+            return {}, 204
+        except:
+            return {"errors": "500 Internal Server Error: Could not delete Task"}, 500
+
 
 class Users(Resource):
     """GET: Access a list of users.
@@ -154,16 +232,15 @@ class Users(Resource):
         def all_users():
             users = User.query.all()
             return [UserSchema().dump(user) for user in users]
-        
+
         return all_users(), 200
-        
 
 
 api.add_resource(Health, "/health", endpoint="health")
 api.add_resource(Signup, "/signup", endpoint="signup")
 api.add_resource(Login, "/login", endpoint="login")
 api.add_resource(Projects, "/projects", "/projects/<int:id>", endpoint="projecsts")
-api.add_resource(Tasks, "/tasks/<int:id>", endpoint="tasks")
+api.add_resource(Tasks, "/tasks", "/tasks/<int:id>", endpoint="tasks")
 api.add_resource(Users, "/users", "/users/<int:id>", endpoint="users")
 
 #  App must be created after api resources are added, as the api.init_app is in create_app
@@ -183,6 +260,8 @@ def is_logged_in():
             verify_jwt_in_request()
         except NoAuthorizationError:
             return {"errors": ["401 Not Autheticated"]}, 401
+        except ExpiredSignatureError:
+            return {"errors": ["Signature expired, please login again."]}, 401
 
 
 if __name__ == "__main__":
