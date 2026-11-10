@@ -69,6 +69,12 @@ class Login(Resource):
         return {"errors": ["401 Unauthorized"]}, 401
 
 
+def get_user_role():
+    current_user_id = get_jwt_identity()
+    current_user = User.query.filter(User.id == current_user_id).first()
+    return current_user.role
+
+
 class Projects(Resource):
     """GET: Access all projects with optional pagination.
     Optionally, provide an ID to return a specific project.
@@ -116,14 +122,17 @@ class Tasks(Resource):
 class Users(Resource):
     """GET: Access a list of users.
     Optionally, specify an ID for a specific user."""
-    
+
     def get(self, id=None):
         if id:
             user = User.query.filter(User.id == id).first()
             return UserSchema().dump(user), 200
-        
-        users = User.query.all()
-        return [UserSchema().dump(user) for user in users], 200
+
+        if get_user_role() == "admin":
+            users = User.query.all()
+            return [UserSchema().dump(user) for user in users], 200
+        else:
+            return {"errors": "403 Forbidden: Admin role required."}, 403
 
 
 api.add_resource(Health, "/health", endpoint="health")
@@ -145,8 +154,8 @@ def is_logged_in():
         "login",
         "health",
     ]
-    if request.endpoint not in open_access_list and not verify_jwt_in_request():
-        return {"errors": ["401 Unauthorized"]}, 401
+    if request.endpoint not in open_access_list:
+        verify_jwt_in_request()
 
 
 if __name__ == "__main__":

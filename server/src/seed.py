@@ -20,6 +20,11 @@ with app.app_context():
     sally = User(name="Sally", role="user", email="sally@site.com")
     joe = User(name="Joe", role="manager", email="joe@site.com")
     adrienn = User(name="Adrienn", role="admin", email="adrienn@site.com")
+    
+    sally.password_hash = "password"
+    joe.password_hash = "password"
+    adrienn.password_hash = "password"
+    
     db.session.add_all([sally, joe, adrienn])
     db.session.commit()
 
