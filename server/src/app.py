@@ -7,11 +7,39 @@ from flask_jwt_extended import (
     get_jwt_identity,
     verify_jwt_in_request,
 )
+from flask_jwt_extended.exceptions import NoAuthorizationError
 from sqlalchemy.exc import IntegrityError
 
+from functools import wraps
 
 from config import create_app, db, api
 from models import *
+
+
+def role_required(*allowed_roles):
+    """Automatically verify role permissions."""
+    def decorator(fn):
+        @wraps(fn)
+        def wrapper(*args, **kwargs):
+            try:
+                verify_jwt_in_request()
+            except NoAuthorizationError:
+                return {"errors": ["401 Not Autheticated"]}, 401
+
+            # Get the identity from the token and query the user
+            current_user_id = get_jwt_identity()
+            current_user = User.query.filter(User.id == current_user_id).first()
+
+            # Check if the user exists and has the allowed roles
+            if not current_user or current_user.role not in allowed_roles:
+                return {"errors": ["403 Forbidden: Higher permission role required"]}, 403
+
+            # If authorized, proceed to the actual resource method
+            return fn(*args, **kwargs)
+
+        return wrapper
+
+    return decorator
 
 
 class Health(Resource):
@@ -69,12 +97,6 @@ class Login(Resource):
         return {"errors": ["401 Unauthorized"]}, 401
 
 
-def get_user_role():
-    current_user_id = get_jwt_identity()
-    current_user = User.query.filter(User.id == current_user_id).first()
-    return current_user.role
-
-
 class Projects(Resource):
     """GET: Access all projects with optional pagination.
     Optionally, provide an ID to return a specific project.
@@ -128,11 +150,13 @@ class Users(Resource):
             user = User.query.filter(User.id == id).first()
             return UserSchema().dump(user), 200
 
-        if get_user_role() == "admin":
+        @role_required("admin")
+        def all_users():
             users = User.query.all()
-            return [UserSchema().dump(user) for user in users], 200
-        else:
-            return {"errors": "403 Forbidden: Admin role required."}, 403
+            return [UserSchema().dump(user) for user in users]
+        
+        return all_users(), 200
+        
 
 
 api.add_resource(Health, "/health", endpoint="health")
@@ -155,7 +179,10 @@ def is_logged_in():
         "health",
     ]
     if request.endpoint not in open_access_list:
-        verify_jwt_in_request()
+        try:
+            verify_jwt_in_request()
+        except NoAuthorizationError:
+            return {"errors": ["401 Not Autheticated"]}, 401
 
 
 if __name__ == "__main__":
