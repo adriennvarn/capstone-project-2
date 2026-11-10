@@ -6,6 +6,11 @@ from flask_restful import Api
 from flask_jwt_extended import JWTManager
 from flask_bcrypt import Bcrypt
 
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+
 metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
@@ -21,6 +26,7 @@ def create_app():
     app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     app.json.compact = False
+    app.config["JWT_SECRET_KEY"] = os.getenv("JWT_SECRET_KEY")
     
     db.init_app(app)
     migrate.init_app(app, db)

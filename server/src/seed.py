@@ -17,9 +17,9 @@ with app.app_context():
 
     #  Add user models
     print("Adding users...")
-    sally = User(name="Sally", role="PR", email="sally@site.com")
-    joe = User(name="Joe", role="Dev", email="joe@site.com")
-    adrienn = User(name="Adrienn", role="Dev", email="adrienn@site.com")
+    sally = User(name="Sally", role="user", email="sally@site.com")
+    joe = User(name="Joe", role="manager", email="joe@site.com")
+    adrienn = User(name="Adrienn", role="admin", email="adrienn@site.com")
     db.session.add_all([sally, joe, adrienn])
     db.session.commit()
 
