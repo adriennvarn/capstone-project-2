@@ -17,7 +17,6 @@ function useFetchData(url, options = {}) {
             })
             .then(posts => setData(posts))
             .catch(err => {
-                console.error(err)
                 setError(err.message)
             })
             .finally(() => setLoading(false))
@@ -51,9 +50,7 @@ function useFetchDataMutation(url) {
                 return result
             })
             .catch(err => {
-                console.error(err)
                 setError(err.message)
-                throw err
             })
             .finally(() => setLoading(false))
     }
