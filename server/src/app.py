@@ -361,12 +361,61 @@ class Users(Resource):
             return {"errors": "500 Internal Server Error: Could not delete User"}, 500
 
 
+class Tags(Resource):
+    def get(self, id=None):
+        if id:
+            tag = Tag.query.filter(Tag.id == id).first()
+            return TagSchema().dump(tag), 200
+
+        return [TagSchema().dump(tag) for tag in Tag.query.all()], 200
+
+    @role_required("manager", "admin")
+    def post(self):
+        json = request.get_json()
+
+        tag = Tag(name=json.get("name"))
+        
+        try:
+            db.session.add(tag)
+            db.session.commit()
+            return TagSchema().dump(tag), 201
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+    
+    @role_required("manager", "admin")
+    def patch(self, id):
+        json = request.get_json()
+        tag = Tag.query.filter(Tag.id == id).first()
+        
+        tag.name = json.get("name") or tag.name
+        # Projects and tasks can't be updated via tags,
+        # but only through their own endpoints.
+        
+        try:
+            db.session.commit()
+            return TagSchema().dump(tag), 200
+        except IntegrityError:
+            return INTEGRITY_ERROR_RESPONSE
+    
+    @role_required("manager", "admin")
+    def delete(self, id):
+        tag = Tag.query.filter(Tag.id == id).first()
+        
+        try:
+            db.session.delete(tag)
+            db.session.commit()
+            return {}, 204
+        except:
+            return {"errors": "500 Internal Server Error: Could not delete Tag"}, 500
+
+
 api.add_resource(Health, "/health", endpoint="health")
 api.add_resource(Signup, "/signup", endpoint="signup")
 api.add_resource(Login, "/login", endpoint="login")
 api.add_resource(Projects, "/projects", "/projects/<int:id>", endpoint="projecsts")
 api.add_resource(Tasks, "/tasks", "/tasks/<int:id>", endpoint="tasks")
 api.add_resource(Users, "/users", "/users/<int:id>", endpoint="users")
+api.add_resource(Tags, "/tags", "/tags/<int:id>", endpoint="tags")
 
 #  App must be created after api resources are added, as the api.init_app is in create_app
 app = create_app()
