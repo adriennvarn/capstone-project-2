@@ -1,7 +1,7 @@
 import "./App.css"
 import { BrowserRouter, Routes, Route, Outlet } from "react-router-dom"
 import Navbar from "./components/Navbar"
-import Login from "./pages/Login"
+import LoginPage from "./pages/LoginPage"
 import Home from "./pages/Home"
 import ProjectInfo from "./pages/ProjectInfo"
 import TaskInfo from "./pages/TaskInfo"
@@ -24,7 +24,7 @@ export default function App() {
         <BrowserRouter>
             <Routes>
                 {/* Page without Navbar */}
-                <Route path="/" element={<Login />} />
+                <Route path="/" element={<LoginPage />} />
 
                 {/* Pages with Navbar */}
                 <Route element={<NavWrapper />}>
