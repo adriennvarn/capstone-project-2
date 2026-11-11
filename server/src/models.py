@@ -56,7 +56,7 @@ class User(db.Model):
     name = db.Column(db.String, nullable=False)
     email = db.Column(db.String, unique=True, nullable=False)
     role = db.Column(db.String)
-    _password_hash = db.Column(db.String)
+    _password_hash = db.Column(db.String, nullable=False)
 
     tasks = db.relationship("Task", secondary="user_assignments", back_populates="users")
 

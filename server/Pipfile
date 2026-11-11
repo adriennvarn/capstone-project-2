@@ -12,6 +12,7 @@ flask-restful = "*"
 flask-bcrypt = "*"
 flask-jwt-extended = "*"
 werkzeug = "*"
+python-dotenv = "*"
 
 [dev-packages]
 
