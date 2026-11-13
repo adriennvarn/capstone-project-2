@@ -6,7 +6,7 @@ from flask_jwt_extended import (
     create_access_token,
     get_jwt_identity,
     verify_jwt_in_request,
-    unset_jwt_cookies
+    unset_jwt_cookies,
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt.exceptions import ExpiredSignatureError
@@ -60,6 +60,15 @@ class Health(Resource):
         return response, 200
 
 
+class Me(Resource):
+    """Return logged in user's information."""
+
+    # Will automatically get rejected with 401 unauthenticated by before_request if not logged in
+    def get(self):
+        current_user = User.query.filter(User.id == get_jwt_identity()).first()
+        return UserSchema().dump(current_user), 200
+
+
 class Signup(Resource):
     """Sign up for an account"""
 
@@ -89,7 +98,7 @@ class Signup(Resource):
 
 class Logout(Resource):
     """Sign out and clear server cookies"""
-    
+
     def post(self):
         unset_jwt_cookies()
         return {"message": "Successfully logged out."}, 200
@@ -383,33 +392,33 @@ class Tags(Resource):
         json = request.get_json()
 
         tag = Tag(name=json.get("name"))
-        
+
         try:
             db.session.add(tag)
             db.session.commit()
             return TagSchema().dump(tag), 201
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
-    
+
     @role_required("manager", "admin")
     def patch(self, id):
         json = request.get_json()
         tag = Tag.query.filter(Tag.id == id).first()
-        
+
         tag.name = json.get("name") or tag.name
         # Projects and tasks can't be updated via tags,
         # but only through their own endpoints.
-        
+
         try:
             db.session.commit()
             return TagSchema().dump(tag), 200
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
-    
+
     @role_required("manager", "admin")
     def delete(self, id):
         tag = Tag.query.filter(Tag.id == id).first()
-        
+
         try:
             db.session.delete(tag)
             db.session.commit()
@@ -419,6 +428,7 @@ class Tags(Resource):
 
 
 api.add_resource(Health, "/health", endpoint="health")
+api.add_resource(Me, "/me", endpoint="me")
 api.add_resource(Signup, "/signup", endpoint="signup")
 api.add_resource(Login, "/login", endpoint="login")
 api.add_resource(Logout, "/logout", endpoint="logout")
@@ -444,7 +454,7 @@ def is_logged_in():
         try:
             verify_jwt_in_request()
         except NoAuthorizationError:
-            return {"errors": ["401 Not Autheticated"]}, 401
+            return {"errors": ["401 Not Authenticated"]}, 401
         except ExpiredSignatureError:
             return {"errors": ["Signature expired, please login again."]}, 401
 
