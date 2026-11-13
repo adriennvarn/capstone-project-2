@@ -46,6 +46,7 @@ export default function Login() {
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} />
                 <button type="submit">Login</button>
             </form>
+            
             <div className={`${!loading ? "hidden" : ""}`}>
                 <p>Loading...</p>
             </div>
