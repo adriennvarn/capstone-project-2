@@ -6,6 +6,7 @@ from flask_jwt_extended import (
     create_access_token,
     get_jwt_identity,
     verify_jwt_in_request,
+    unset_jwt_cookies
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt.exceptions import ExpiredSignatureError
@@ -84,6 +85,14 @@ class Signup(Resource):
             return {"token": access_token, "user": UserSchema().dump(user)}, 201
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
+
+
+class Logout(Resource):
+    """Sign out and clear server cookies"""
+    
+    def post(self):
+        unset_jwt_cookies()
+        return {"message": "Successfully logged out."}, 200
 
 
 class Login(Resource):
@@ -412,6 +421,7 @@ class Tags(Resource):
 api.add_resource(Health, "/health", endpoint="health")
 api.add_resource(Signup, "/signup", endpoint="signup")
 api.add_resource(Login, "/login", endpoint="login")
+api.add_resource(Logout, "/logout", endpoint="logout")
 api.add_resource(Projects, "/projects", "/projects/<int:id>", endpoint="projecsts")
 api.add_resource(Tasks, "/tasks", "/tasks/<int:id>", endpoint="tasks")
 api.add_resource(Users, "/users", "/users/<int:id>", endpoint="users")
@@ -428,6 +438,7 @@ def is_logged_in():
         "signup",
         "login",
         "health",
+        "logout",
     ]
     if request.endpoint not in open_access_list:
         try:
