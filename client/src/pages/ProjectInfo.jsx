@@ -21,7 +21,6 @@ export default function ProjectInfo() {
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error}</p>
 
-
     return (
         <div className="align-center">
             <h1 className="text-xl">{project.name}</h1>
@@ -29,11 +28,11 @@ export default function ProjectInfo() {
             <p>{project.description}</p>
 
             <h3>Tasks:</h3>
-            <ul>
+            <div className="grid grid-cols-2 md:grid-cols-4 justify-center items-center">
                 {project.tasks.map(task => (
                     <TaskCard key={task.id} task={task} />
                 ))}
-            </ul>
+            </div>
 
             <ul className="text-xs flex flex-wrap items-center justify-center gap-4">
                 {project.tags.map(tag => (
