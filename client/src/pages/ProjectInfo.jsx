@@ -1,25 +1,25 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useFetchData } from "../hooks/useFetchData"
-import { useEffect, useState } from "react"
+import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
+import { useState } from "react"
 import TaskCard from "../components/TaskCard"
 import TaskForm from "../components/TaskForm"
+import ProjectForm from "../components/ProjectForm"
+import { titleFormatting, dateFormatting, descriptionFormatting } from "../formats"
 
 export default function ProjectInfo() {
 
     const { id } = useParams()
-    const [showForm, setShowForm] = useState(false)
+    const [showTaskForm, setShowTaskForm] = useState(false)
+    const [showUpdateForm, setShowUpdateForm] = useState(false)
     const { data: project, loading, error, refetch } = useFetchData(`/api/projects/${id}`)
+    const { execute: sendData } = useFetchDataMutation(`/api/projects/${id}`)
     const navigate = useNavigate()
 
     const handleDelete = () => {
-        loadData({
+        sendData({
             method: "DELETE"
         })
         navigate("/home")
-    }
-
-    const handleUpdate = () => {
-
     }
 
     if (loading) return <p>Loading...</p>
@@ -27,9 +27,9 @@ export default function ProjectInfo() {
 
     return (
         <div className="align-center">
-            <h1 className="text-xl">{project.name}</h1>
-            <p className="text-xs">{project.due_date}</p>
-            <p className="my-2">{project.description}</p>
+            <h1 className={titleFormatting}>{project.name}</h1>
+            <p className={dateFormatting}>{project.due_date}</p>
+            <p className={descriptionFormatting}>{project.description}</p>
 
             <h3>Tasks:</h3>
             <div className="mb-2 grid grid-cols-2 md:grid-cols-4 justify-center items-center">
@@ -38,11 +38,11 @@ export default function ProjectInfo() {
                 ))}
             </div>
 
-            <p onClick={() => setShowForm(true)} className="semibold">Add Task</p>
-            {showForm &&
+            <p onClick={() => setShowTaskForm(true)} className="semibold">Add Task</p>
+            {showTaskForm &&
                 (<TaskForm project={project} onTaskCreated={() => {
                     refetch()
-                    setShowForm(false)
+                    setShowTaskForm(false)
                 }} />)
             }
 
@@ -53,7 +53,14 @@ export default function ProjectInfo() {
             </ul>
 
             <button onClick={handleDelete} type="button">Delete Project</button>
-            <button onClick={handleUpdate} type="button">Update Project</button>
+
+            <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>
+            {showUpdateForm && (
+                <ProjectForm project={project} onProjectCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div >
     )
 }

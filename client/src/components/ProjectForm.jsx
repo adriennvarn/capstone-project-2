@@ -3,16 +3,16 @@ import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
 import { inputFormatting, checkboxFormatting } from "../formats"
 
-export default function ProjectForm({ onProjectCreated }) {
+export default function ProjectForm({ project, onProjectCreated }) {
 
-    const blankForm = {
-        name: "",
-        description: "",
-        due_date: "",
-        tag_ids: []
+    const template = {
+        name: project?.name || "",
+        description: project?.description || "",
+        due_date: project?.due_date ? project.due_date.split("T")[0] : "",
+        tag_ids: project?.tags?.map(tag => tag.id) || []
     }
 
-    const [formData, setFormData] = useState(blankForm)
+    const [formData, setFormData] = useState(template)
     const [showTagForm, setShowTagForm] = useState(false)
     const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
@@ -45,18 +45,30 @@ export default function ProjectForm({ onProjectCreated }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            await sendData({
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            }, `/api/projects`)
+        if (project) {
+            try {
+                await sendData({
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                }, `/api/projects/${project.id}`)
+                if (onProjectCreated) onProjectCreated()
+            }
+            catch {}
+        } else {
+            try {
+                await sendData({
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                }, `/api/projects`)
 
-            setFormData(blankForm)
-            if (onProjectCreated) onProjectCreated()
+                setFormData(blankForm)
+                if (onProjectCreated) onProjectCreated()
+            }
+            // TODO actually implement error handling
+            catch { }
         }
-        // TODO actually implement error handling
-        catch { }
     }
 
     if (tagsLoading) return <p>Loading...</p>

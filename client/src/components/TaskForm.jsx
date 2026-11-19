@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef } from "react"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
 import { inputFormatting, checkboxFormatting } from "../formats"

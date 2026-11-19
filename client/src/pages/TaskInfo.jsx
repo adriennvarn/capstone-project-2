@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import UserCard from "../components/UserCard"
 import TaskForm from "../components/TaskForm"
 import { titleFormatting, dateFormatting, descriptionFormatting } from "../formats"
@@ -55,6 +55,7 @@ export default function TaskInfo() {
 
             <div className="flex justify-center gap-4">
                 <button onClick={handleDelete} type="button">Delete Task</button>
+                
                 <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Task</button>
                 {showUpdateForm && (
                     <TaskForm task={task} onTaskCreated={() => {
