@@ -8,7 +8,7 @@ export default function TaskCard({ task }) {
     }
 
     return (
-        <div onClick={handleClick} className="border border-lg">
+        <div onClick={handleClick} className="border border-sm">
             <h1>{task.name}</h1>
             <h2>{task.due_date}</h2>
             <p>{task.description}</p>
