@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from "react"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
+import { inputFormatting, checkboxFormatting } from "../formats"
 
 export default function TaskForm({ project }) {
 
@@ -86,9 +87,6 @@ export default function TaskForm({ project }) {
             </div>
         )
     }
-
-    const inputFormatting = ""
-    const checkboxFormatting = ""
 
     return (
         <div>
