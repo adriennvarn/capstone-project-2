@@ -5,7 +5,7 @@ import { UserContext } from "../contexts/UserContext"
 
 export default function Navbar() {
 
-    const { setUser } = useContext(UserContext)
+    const { user, setUser } = useContext(UserContext)
     const { execute: logout } = useFetchDataMutation()
 
     const handleSignout = async () => {
@@ -21,13 +21,14 @@ export default function Navbar() {
 
     return (
         <nav className="sticky mt-0 border-b border-gray-400 pb-2">
-            <h1 className="text-xl">Navbar</h1>
+            <h1 className="text-xl font-semibold">Navbar</h1>
             <ul className="flex gap-10 items-center justify-center">
                 <li><NavLink to="/home">Home</NavLink></li>
                 <li><NavLink to="/">Login</NavLink></li>
                 <li><NavLink to="/" onClick={handleSignout}>Sign Out</NavLink></li>
                 <li><NavLink to="/admin">Admin Dashboard</NavLink></li>
             </ul>
+            <p className="mt-1 text-xs text-gray-500">Logged in as: {user.name}</p>
         </nav>
     )
 }
