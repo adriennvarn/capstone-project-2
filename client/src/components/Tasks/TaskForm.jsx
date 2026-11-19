@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
-import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
-import TagForm from "./TagForm"
-import * as format from "../formats"
+import { useFetchData, useFetchDataMutation } from "../../hooks/useFetchData"
+import TagForm from "../Tags/TagForm"
+import * as format from "../../formats"
 
 export default function TaskForm({ project, task, onTaskCreated }) {
 

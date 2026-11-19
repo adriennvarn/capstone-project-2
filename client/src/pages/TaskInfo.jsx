@@ -1,8 +1,8 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import { useState } from "react"
-import UserCard from "../components/UserCard"
-import TaskForm from "../components/TaskForm"
+import UserCard from "../components/Users/UserCard"
+import TaskForm from "../components/Tasks/TaskForm"
 import * as format from "../formats"
 
 export default function TaskInfo() {

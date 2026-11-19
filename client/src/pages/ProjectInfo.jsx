@@ -1,9 +1,9 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import { useState } from "react"
-import TaskCard from "../components/TaskCard"
-import TaskForm from "../components/TaskForm"
-import ProjectForm from "../components/ProjectForm"
+import TaskCard from "../components/Tasks/TaskCard"
+import TaskForm from "../components/Tasks/TaskForm"
+import ProjectForm from "../components/Projects/ProjectForm"
 import * as format from "../formats"
 
 export default function ProjectInfo() {
