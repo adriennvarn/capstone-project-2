@@ -7,6 +7,7 @@ from flask_jwt_extended import (
     get_jwt_identity,
     verify_jwt_in_request,
     unset_jwt_cookies,
+    set_access_cookies,
 )
 from flask_jwt_extended.exceptions import NoAuthorizationError
 from jwt.exceptions import ExpiredSignatureError
@@ -90,8 +91,10 @@ class Signup(Resource):
         try:
             db.session.add(user)
             db.session.commit()
-            access_token = create_access_token(identity=str(user.id))
-            return {"token": access_token, "user": UserSchema().dump(user)}, 201
+            token = create_access_token(identity=str(user.id))
+            response = make_response({"token": token, "user": UserSchema().dump(user)}, 201)
+            set_access_cookies(response, token)
+            return response
         except IntegrityError:
             return INTEGRITY_ERROR_RESPONSE
 
@@ -100,8 +103,9 @@ class Logout(Resource):
     """Sign out and clear server cookies"""
 
     def post(self):
-        unset_jwt_cookies()
-        return {"message": "Successfully logged out."}, 200
+        response = make_response({"message": "Successfully logged out."}, 200)
+        unset_jwt_cookies(response)
+        return response
 
 
 class Login(Resource):
@@ -117,7 +121,9 @@ class Login(Resource):
 
         if user and user.authenticate(password):
             token = create_access_token(identity=str(user.id))
-            return {"token": token, "user": UserSchema().dump(user)}, 200
+            response = make_response({"token": token, "user": UserSchema().dump(user)}, 200)
+            set_access_cookies(response, token)
+            return response
 
         return {"errors": ["401 Unauthorized"]}, 401
 
