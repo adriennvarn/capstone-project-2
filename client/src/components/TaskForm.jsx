@@ -3,7 +3,7 @@ import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
 import { inputFormatting, checkboxFormatting } from "../formats"
 
-export default function TaskForm({ project }) {
+export default function TaskForm({ project, onTaskCreated }) {
 
     const blankForm = {
         project_id: project.id,
@@ -72,6 +72,7 @@ export default function TaskForm({ project }) {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
             }, `/api/tasks`)
+            if (onTaskCreated) onTaskCreated()
         }
         // TODO actually implement error handling
         catch { }
