@@ -92,7 +92,7 @@ class Signup(Resource):
             db.session.add(user)
             db.session.commit()
             token = create_access_token(identity=str(user.id))
-            response = make_response({"token": token, "user": UserSchema().dump(user)}, 201)
+            response = make_response(UserSchema().dump(user), 201)
             set_access_cookies(response, token)
             return response
         except IntegrityError:
@@ -121,7 +121,7 @@ class Login(Resource):
 
         if user and user.authenticate(password):
             token = create_access_token(identity=str(user.id))
-            response = make_response({"token": token, "user": UserSchema().dump(user)}, 200)
+            response = make_response(UserSchema().dump(user), 200)
             set_access_cookies(response, token)
             return response
 
