@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from "react"
 
-function useFetchData(url, options = {}) {
+function useFetchData(url, options = null) {
     const [data, setData] = useState([])
     const [loading, setLoading] = useState(true)
     const [error, setError] = useState(null)
@@ -10,7 +10,7 @@ function useFetchData(url, options = {}) {
         setLoading(true)
         console.log("Fetching data from: ", url)
 
-        fetch(url, options)
+        fetch(url, options || {})
             .then(r => {
                 if (r.ok) return r.json()
                 else throw new Error("Failed fetching resource")
