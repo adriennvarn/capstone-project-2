@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
+import TagForm from "./TagForm"
 
 export default function TaskForm({ project }) {
 
@@ -13,9 +14,10 @@ export default function TaskForm({ project }) {
     }
 
     const [formData, setFormData] = useState(blankForm)
+    const [showTagForm, setShowTagForm] = useState(false)
     const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
-    const { data: tags, loading: tagsLoading, error: tagsError } = useFetchData("/api/tags")
+    const { data: tags, loading: tagsLoading, error: tagsError, refetch: refetchTags } = useFetchData("/api/tags")
     const { data: users, loading: usersLoading, error: usersError } = useFetchData("/api/users")
 
     const handleChange = (e) => {
@@ -121,14 +123,25 @@ export default function TaskForm({ project }) {
                     {tags.map((tag) => (
                         <label key={tag.id}>
                             <input type="checkbox"
-                            value={tag.id}
-                            checked={formData.tag_ids.includes(tag.id)}
-                            onChange={handleTagsChange}
+                                value={tag.id}
+                                checked={formData.tag_ids.includes(tag.id)}
+                                onChange={handleTagsChange}
                             />
                             {tag.name}
                         </label>
                     ))}
                 </fieldset>
+                <div>
+                    <p onClick={() => setShowTagForm(true)}>Add Tag</p>
+                    {showTagForm && (
+                        <TagForm
+                            onTagCreated={() => {
+                                refetchTags()
+                                setShowTagForm(false)
+                            }}
+                        />
+                    )}
+                </div>
                 <button type="submit">Submit</button>
             </form>
         </div>
