@@ -8,17 +8,21 @@ export const UserContext = createContext()
 export function UserProvider({ children }) {
 
     const [user, setUser] = useState({})
-    const { execute: loadUser, data, loading, error } = useFetchDataMutation("/api/me")
+    const [loading, setLoading] = useState(true)
+    const { execute: loadUser } = useFetchDataMutation("/api/me")
 
     useEffect(() => {
         loadUser()
             .then((userData) => {
                 if (userData) setUser(userData)
             })
+            .finally(() => {
+                setLoading(false)
+            })
     }, [])
 
     return (
-        <UserContext value={{ user, setUser }} >
+        <UserContext value={{ user, setUser, loading }} >
             {children}
         </UserContext>
     )
