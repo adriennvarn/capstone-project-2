@@ -25,9 +25,9 @@ export default function App() {
                         {/* Available to any logged in user */}
                         <Route element={<ProtectedRoute />}>
                             <Route path="/home" element={<Home />} />
-                            <Route path="/projects/<int:id>" element={<ProjectInfo />} />
-                            <Route path="/tasks/<int:id>" element={<TaskInfo />} />
-                            <Route path="/users/<int:id>" element={<UserInfo />} />
+                            <Route path="/projects/:id" element={<ProjectInfo />} />
+                            <Route path="/tasks/:id" element={<TaskInfo />} />
+                            <Route path="/users/:id" element={<UserInfo />} />
                         </Route>
 
                         {/* Only available to admins */}
