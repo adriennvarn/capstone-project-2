@@ -1,26 +1,20 @@
 import { useNavigate, useParams } from "react-router-dom"
-import { useFetchDataMutation } from "../hooks/useFetchData"
+import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import { useEffect, useState } from "react"
 import UserCard from "../components/UserCard"
+import TaskForm from "../components/TaskForm"
+import { titleFormatting, dateFormatting, descriptionFormatting } from "../formats"
 
 export default function TaskInfo() {
 
     const { id } = useParams()
     const navigate = useNavigate()
-    const [task, setTask] = useState({})
-    const [loading, setLoading] = useState(true)
-    const { execute: loadData, error } = useFetchDataMutation(`/api/tasks/${id}`)
-
-    useEffect(() => {
-        loadData()
-            .then((data) => {
-                if (data) setTask(data)
-            })
-            .finally(() => setLoading(false))
-    }, [])
+    const { data: task, loading, error, refetch } = useFetchData(`/api/tasks/${id}`)
+    const { execute: sendData } = useFetchDataMutation(`/api/tasks/${id}`)
+    const [showUpdateForm, setShowUpdateForm] = useState(false)
 
     const handleDelete = async () => {
-        await loadData({
+        await sendData({
             method: "DELETE"
         })
 
@@ -31,34 +25,44 @@ export default function TaskInfo() {
         }
     }
 
-    const handleUpdate = () => {
-
-    }
-
     if (loading) return <p>Loading...</p>
     if (error) return <p>Error: {error}</p>
 
     return (
         <div className="align-center">
-            <h1 className="text-xl">{task.name}</h1>
-            <p className="text-xs">{task.due_date}</p>
-            <p>{task.description}</p>
-            <br />
-            <ul className="text-xs flex flex-wrap items-center justify-center gap-4">
+            <h1 className={titleFormatting}>{task.name}</h1>
+            <p className={dateFormatting}>
+                {task?.due_date && task.due_date.slice(0, 10).split("-").slice(1).concat(task.due_date.slice(0, 4)).join("-")}
+            </p>
+
+            <p className={descriptionFormatting}>{task.description}</p>
+
+            <div className="my-2">
+                <h3 className="m-1">Users:</h3>
+                <div className="grid grid-cols-2 md:grid-cols-4 justify-center items-center">
+                    {task.users.map(user => (
+                        <UserCard key={user.id} user={user} />
+                    ))}
+                </div>
+            </div>
+
+
+            <ul className="mt-2 mb-1 text-xs flex flex-wrap items-center justify-center gap-3">
                 {task.tags.map(tag => (
                     <li key={tag.id}>#{tag.name}</li>
                 ))}
             </ul>
 
-            <h3>Users:</h3>
-            <div className="grid grid-cols-2 md:grid-cols-4 justify-center items-center">
-                {task.users.map(user => (
-                    <UserCard key={user.id} user={user} />
-                ))}
+            <div className="flex justify-center gap-4">
+                <button onClick={handleDelete} type="button">Delete Task</button>
+                <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Task</button>
+                {showUpdateForm && (
+                    <TaskForm task={task} onTaskCreated={() => {
+                        refetch()
+                        setShowUpdateForm(false)
+                    }} />
+                )}
             </div>
-
-            <button onClick={handleDelete} type="button">Delete Task</button>
-            <button onClick={handleUpdate} type="button">Update Task</button>
         </div>
     )
 }

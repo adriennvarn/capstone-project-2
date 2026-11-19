@@ -3,18 +3,18 @@ import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
 import { inputFormatting, checkboxFormatting } from "../formats"
 
-export default function TaskForm({ project, onTaskCreated }) {
+export default function TaskForm({ project, task, onTaskCreated }) {
 
-    const blankForm = {
-        project_id: project.id,
-        name: "",
-        description: "",
-        due_date: "",
-        tag_ids: [],
-        user_ids: [],
+    const template = {
+        project_id: project?.id || task.project_id,
+        name: task?.name || "",
+        description: task?.description || "",
+        due_date: task?.due_date ? task.due_date.split("T")[0] : "",
+        tag_ids: task?.tags?.map((tag) => tag.id) || [],
+        user_ids: task?.users?.map((user) => user.id) || [],
     }
 
-    const [formData, setFormData] = useState(blankForm)
+    const [formData, setFormData] = useState(template)
     const [showTagForm, setShowTagForm] = useState(false)
     const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
@@ -66,16 +66,28 @@ export default function TaskForm({ project, onTaskCreated }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-        try {
-            await sendData({
-                method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify(formData)
-            }, `/api/tasks`)
-            if (onTaskCreated) onTaskCreated()
+        if (task) {
+            try {
+                await sendData({
+                    method: "PATCH",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                }, `/api/tasks/${task.id}`)
+                if (onTaskCreated) onTaskCreated()
+            }
+            catch { }
+        } else {
+            try {
+                await sendData({
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(formData)
+                }, `/api/tasks`)
+                if (onTaskCreated) onTaskCreated()
+            }
+            // TODO actually implement error handling
+            catch { }
         }
-        // TODO actually implement error handling
-        catch { }
     }
 
     if (tagsLoading || usersLoading) return <p>Loading...</p>
@@ -112,6 +124,7 @@ export default function TaskForm({ project, onTaskCreated }) {
                                 value={user.id}
                                 checked={formData.user_ids.includes(user.id)}
                                 onChange={handleUsersChange}
+                                className={checkboxFormatting}
                             />
                             {user.name}
                         </label>
@@ -125,6 +138,7 @@ export default function TaskForm({ project, onTaskCreated }) {
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
+                                className={checkboxFormatting}
                             />
                             {tag.name}
                         </label>

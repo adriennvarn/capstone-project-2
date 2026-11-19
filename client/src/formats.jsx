@@ -1,2 +1,5 @@
 export const inputFormatting = ""
 export const checkboxFormatting = ""
+export const titleFormatting = "text-xl"
+export const dateFormatting = "text-xs"
+export const descriptionFormatting = ""
