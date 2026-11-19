@@ -1,11 +1,13 @@
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useFetchDataMutation } from "../hooks/useFetchData"
+import { UserContext } from "../contexts/UserContext"
 
 export default function Login() {
 
     const { execute: sendData, data, loading, error } = useFetchDataMutation()
     const navigate = useNavigate()
+    const { setUser } = useContext(UserContext)
 
     const [formData, setFormData] = useState({
         email: "",
@@ -35,6 +37,7 @@ export default function Login() {
 
     useEffect(() => {
         if (data && !error) {
+            setUser(data)
             navigate("/home")
         }
     }, [data, error, navigate])
