@@ -134,6 +134,7 @@ class TaskSchema(Schema):
     description = fields.Str()
     due_date = fields.DateTime()
     complete = fields.Bool()
+    project_id = fields.Int()
 
     tags = fields.List(fields.Nested(lambda: TagSchema(exclude=("projects", "tasks"))))
     users = fields.List(fields.Nested(lambda: UserSchema(exclude=("tasks",))))
