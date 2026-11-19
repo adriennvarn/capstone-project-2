@@ -33,7 +33,7 @@ export default function Signup() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const result = await sendData({
+            await sendData({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
@@ -47,7 +47,7 @@ export default function Signup() {
         if (data && !error) {
             navigate("/home")
         }
-    }, [data, error])
+    }, [data, error, navigate])
 
     return (
         <div>

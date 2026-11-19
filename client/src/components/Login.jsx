@@ -23,7 +23,7 @@ export default function Login() {
     const handleSubmit = async (e) => {
         e.preventDefault()
         try {
-            const result = await sendData({
+            await sendData({
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData)
@@ -37,7 +37,7 @@ export default function Login() {
         if (data && !error) {
             navigate("/home")
         }
-    }, [data, error])
+    }, [data, error, navigate])
 
     return (
         <div>
@@ -46,7 +46,7 @@ export default function Login() {
                 <input type="password" name="password" placeholder="Password" onChange={handleChange} />
                 <button type="submit">Login</button>
             </form>
-            
+
             <div className={`${!loading ? "hidden" : ""}`}>
                 <p>Loading...</p>
             </div>

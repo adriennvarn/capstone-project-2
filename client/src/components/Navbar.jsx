@@ -1,14 +1,19 @@
 import { NavLink } from "react-router-dom"
 import { useFetchDataMutation } from "../hooks/useFetchData"
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
 
 export default function Navbar() {
-    const handleSignout = async () => {
-        const { execute: logout } = useFetchDataMutation()
 
+    const { setUser } = useContext(UserContext)
+    const { execute: logout } = useFetchDataMutation()
+
+    const handleSignout = async () => {
         try {
-            const result = await logout({
+            await logout({
                 method: "POST",
             }, `/api/logout`)
+            setUser({})
         }
         // TODO actually implement error handling
         catch { }
