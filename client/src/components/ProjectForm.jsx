@@ -1,7 +1,7 @@
 import { useState, useRef } from "react"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import TagForm from "./TagForm"
-import { inputFormatting, checkboxFormatting } from "../formats"
+import * as format from "../formats"
 
 export default function ProjectForm({ project, onProjectCreated }) {
 
@@ -78,15 +78,15 @@ export default function ProjectForm({ project, onProjectCreated }) {
         <div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={inputFormatting} />
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.input} />
                     Project Name
                 </label>
                 <label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={inputFormatting} />
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.input} />
                     Description
                 </label>
                 <label>
-                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={inputFormatting} />
+                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.input} />
                     Due Date
                 </label>
 
@@ -98,6 +98,7 @@ export default function ProjectForm({ project, onProjectCreated }) {
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
+                                className={format.checkbox}
                             />
                             {tag.name}
                         </label>

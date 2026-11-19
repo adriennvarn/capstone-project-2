@@ -3,7 +3,7 @@ import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import { useState } from "react"
 import UserCard from "../components/UserCard"
 import TaskForm from "../components/TaskForm"
-import { titleFormatting, dateFormatting, descriptionFormatting } from "../formats"
+import * as format from "../formats"
 
 export default function TaskInfo() {
 
@@ -30,12 +30,12 @@ export default function TaskInfo() {
 
     return (
         <div className="align-center">
-            <h1 className={titleFormatting}>{task.name}</h1>
-            <p className={dateFormatting}>
+            <h1 className={format.title}>{task.name}</h1>
+            <p className={format.date}>
                 {task?.due_date && task.due_date.slice(0, 10).split("-").slice(1).concat(task.due_date.slice(0, 4)).join("-")}
             </p>
 
-            <p className={descriptionFormatting}>{task.description}</p>
+            <p className={format.description}>{task.description}</p>
 
             <div className="my-2">
                 <h3 className="m-1">Users:</h3>
@@ -53,7 +53,7 @@ export default function TaskInfo() {
                 ))}
             </ul>
 
-            <div className="flex justify-center gap-4">
+            <div className={format.buttonGroup}>
                 <button onClick={handleDelete} type="button">Delete Task</button>
                 
                 <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Task</button>

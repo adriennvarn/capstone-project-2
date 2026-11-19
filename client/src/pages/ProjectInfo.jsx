@@ -4,7 +4,7 @@ import { useState } from "react"
 import TaskCard from "../components/TaskCard"
 import TaskForm from "../components/TaskForm"
 import ProjectForm from "../components/ProjectForm"
-import { titleFormatting, dateFormatting, descriptionFormatting } from "../formats"
+import * as format from "../formats"
 
 export default function ProjectInfo() {
 
@@ -27,9 +27,11 @@ export default function ProjectInfo() {
 
     return (
         <div className="align-center">
-            <h1 className={titleFormatting}>{project.name}</h1>
-            <p className={dateFormatting}>{project.due_date}</p>
-            <p className={descriptionFormatting}>{project.description}</p>
+            <h1 className={format.title}>{project.name}</h1>
+            <p className={format.date}>{project.due_date}</p>
+            <p className={format.description}>
+                {project?.due_date && project.due_date.slice(0, 10).split("-").slice(1).concat(project.due_date.slice(0, 4)).join("-")}
+            </p>
 
             <h3>Tasks:</h3>
             <div className="mb-2 grid grid-cols-2 md:grid-cols-4 justify-center items-center">
@@ -52,15 +54,17 @@ export default function ProjectInfo() {
                 ))}
             </ul>
 
-            <button onClick={handleDelete} type="button">Delete Project</button>
+            <div className={format.buttonGroup}>
+                <button onClick={handleDelete} type="button">Delete Project</button>
 
-            <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>
-            {showUpdateForm && (
-                <ProjectForm project={project} onProjectCreated={() => {
-                    refetch()
-                    setShowUpdateForm(false)
-                }} />
-            )}
+                <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>
+                {showUpdateForm && (
+                    <ProjectForm project={project} onProjectCreated={() => {
+                        refetch()
+                        setShowUpdateForm(false)
+                    }} />
+                )}
+            </div>
         </div >
     )
 }
