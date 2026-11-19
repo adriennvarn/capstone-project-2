@@ -326,7 +326,6 @@ class Users(Resource):
             user = User.query.filter(User.id == id).first()
             return UserSchema().dump(user), 200
 
-        @role_required("admin")
         def all_users():
             users = User.query.all()
             return [UserSchema().dump(user) for user in users]
