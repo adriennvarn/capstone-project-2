@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import ProjectCard from "./ProjectCard"
 import ProjectForm from "./ProjectForm"
+import * as format from "../../formats"
 import { useFetchData, useFetchDataMutation } from "../../hooks/useFetchData"
 
 export default function ProjectList() {
@@ -23,7 +24,7 @@ export default function ProjectList() {
                 }}/>
             )}
 
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-4">
+            <div className={format.cardGroup}>
                 {projects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}
