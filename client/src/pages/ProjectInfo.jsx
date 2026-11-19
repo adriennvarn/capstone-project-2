@@ -54,7 +54,7 @@ export default function ProjectInfo() {
                 ))}
             </ul>
 
-            <div className={format.buttonGroup}>
+            <div className={format.buttons.container}>
                 <button onClick={handleDelete} type="button">Delete Project</button>
 
                 <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>

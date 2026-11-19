@@ -53,7 +53,7 @@ export default function TaskInfo() {
                 ))}
             </ul>
 
-            <div className={format.buttonGroup}>
+            <div className={format.buttons.container}>
                 <button onClick={handleDelete} type="button">Delete Task</button>
                 
                 <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Task</button>

@@ -25,10 +25,10 @@ export default function UserInfo() {
                 <p className="italic">{user.email}</p>
             </div>
 
-            <div className={format.buttonGroup}>
-                <button onClick={handleDelete} type="button" className={format.button}>Delete User</button>
+            <div className={format.buttons.container}>
+                <button onClick={handleDelete} type="button" className={format.buttons.button}>Delete User</button>
 
-                <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.button}>Update User</button>
+                <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>Update User</button>
                 {showUpdateForm && (
                     <UserForm user={user} onUserCreated={() => {
                         refetch()

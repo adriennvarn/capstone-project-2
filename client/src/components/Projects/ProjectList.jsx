@@ -11,7 +11,7 @@ export default function ProjectList() {
 
     const projects = data.items
 
-    if (loading) return <p>Loading...</p>
+    if (loading) return <format.LoadingSpinner />
     if (error) return <p>Error: {error}</p>
 
     return (
@@ -24,7 +24,7 @@ export default function ProjectList() {
                 }}/>
             )}
 
-            <div className={format.cardGroup}>
+            <div className={format.cards.container}>
                 {projects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}

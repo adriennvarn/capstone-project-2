@@ -90,7 +90,7 @@ export default function TaskForm({ project, task, onTaskCreated }) {
         }
     }
 
-    if (tagsLoading || usersLoading) return <p>Loading...</p>
+    if (tagsLoading || usersLoading) return <format.LoadingSpinner />
     if (tagsError || usersError) {
         console.error(tags)
         console.error(users)
@@ -105,15 +105,15 @@ export default function TaskForm({ project, task, onTaskCreated }) {
         <div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.input} />
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.forms.input} />
                     Task Name
                 </label>
                 <label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.input} />
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.forms.input} />
                     Description
                 </label>
                 <label>
-                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.input} />
+                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
                     Due Date
                 </label>
                 <fieldset className="align-center">
@@ -124,7 +124,7 @@ export default function TaskForm({ project, task, onTaskCreated }) {
                                 value={user.id}
                                 checked={formData.user_ids.includes(user.id)}
                                 onChange={handleUsersChange}
-                                className={format.checkbox}
+                                className={format.forms.checkbox}
                             />
                             {user.name}
                         </label>
@@ -138,7 +138,7 @@ export default function TaskForm({ project, task, onTaskCreated }) {
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
-                                className={format.checkbox}
+                                className={format.forms.checkbox}
                             />
                             {tag.name}
                         </label>

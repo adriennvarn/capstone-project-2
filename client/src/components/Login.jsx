@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { useFetchDataMutation } from "../hooks/useFetchData"
 import { UserContext } from "../contexts/UserContext"
+import * as format from "../formats"
 
 export default function Login() {
 
@@ -51,7 +52,7 @@ export default function Login() {
             </form>
 
             <div className={`${!loading ? "hidden" : ""}`}>
-                <p>Loading...</p>
+                <format.LoadingSpinner />
             </div>
         </div>
     )

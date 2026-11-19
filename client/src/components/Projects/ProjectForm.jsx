@@ -71,22 +71,22 @@ export default function ProjectForm({ project, onProjectCreated }) {
         }
     }
 
-    if (tagsLoading) return <p>Loading...</p>
+    if (tagsLoading) return <format.LoadingSpinner />
     if (tagsError) return <p>Error: {tagsError}</p>
 
     return (
         <div>
             <form onSubmit={handleSubmit}>
                 <label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.input} />
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.forms.input} />
                     Project Name
                 </label>
                 <label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.input} />
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.forms.input} />
                     Description
                 </label>
                 <label>
-                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.input} />
+                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
                     Due Date
                 </label>
 
@@ -98,7 +98,7 @@ export default function ProjectForm({ project, onProjectCreated }) {
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
-                                className={format.checkbox}
+                                className={format.forms.checkbox}
                             />
                             {tag.name}
                         </label>

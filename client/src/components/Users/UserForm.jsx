@@ -58,7 +58,7 @@ export default function UserForm({ user, onUserCreated }) {
                         name="name"
                         value={formData.name}
                         onChange={handleChange}
-                        className={format.input} />
+                        className={format.forms.input} />
                     Name
                 </label>
                 <label>
@@ -66,7 +66,7 @@ export default function UserForm({ user, onUserCreated }) {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className={format.input} />
+                        className={format.forms.input} />
                     Email
                 </label>
 

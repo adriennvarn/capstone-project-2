@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import * as format from "../../formats"
 
 export default function UserCard({ user }) {
     const navigate = useNavigate()
@@ -9,7 +10,7 @@ export default function UserCard({ user }) {
 
     return (
         <div onClick={handleClick} className="border border-sm">
-            <h1>{user.name}</h1>
+            <h1 className={format.cards.title}>{user.name}</h1>
         </div>
     )
 }
