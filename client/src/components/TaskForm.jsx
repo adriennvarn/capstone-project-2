@@ -14,7 +14,6 @@ export default function TaskForm({ project }) {
 
     const [formData, setFormData] = useState(blankForm)
     const inputRef = useRef()
-    const [loading, setLoading] = useState(true)
     const { execute: sendData, error } = useFetchDataMutation()
     const { data: tags, loading: tagsLoading, error: tagsError } = useFetchData("/api/tags")
     const { data: users, loading: usersLoading, error: usersError } = useFetchData("/api/users")
@@ -27,21 +26,40 @@ export default function TaskForm({ project }) {
         }))
     }
 
-    const handleCheckboxChange = (e) => {
+    const handleUsersChange = (e) => {
         const { value, checked } = e.target
+        const userId = Number(value)
 
         if (checked) {
             setFormData((prevData) => ({
                 ...prevData,
-                user_ids: prevData.user_ids.push(value.id)
+                user_ids: [...prevData.user_ids, userId]
             }))
         } else {
             setFormData((prevData) => ({
                 ...prevData,
-                user_ids: prevData.user_ids.filter(id => id !== value.id)
+                user_ids: prevData.user_ids.filter(id => id !== userId)
             }))
         }
     }
+
+    const handleTagsChange = (e) => {
+        const { value, checked } = e.target
+        const tagId = Number(value)
+
+        if (checked) {
+            setFormData((prevData) => ({
+                ...prevData,
+                tag_ids: [...prevData.tag_ids, tagId]
+            }))
+        } else {
+            setFormData((prevData) => ({
+                ...prevData,
+                tag_ids: prevData.tag_ids.filter(id => id !== tagId)
+            }))
+        }
+    }
+
 
     const handleSubmit = async (e) => {
         e.preventDefault()
@@ -89,15 +107,29 @@ export default function TaskForm({ project }) {
                     <legend className="align-center">Assign Users:</legend>
                     {users.map((user) => (
                         <label key={user.id}>
-                            <input type="checkbox" 
-                            value={user} 
-                            checked={formData.user_ids.includes(user)}
-                            onChange={handleCheckboxChange}
+                            <input type="checkbox"
+                                value={user.id}
+                                checked={formData.user_ids.includes(user.id)}
+                                onChange={handleUsersChange}
                             />
                             {user.name}
                         </label>
                     ))}
                 </fieldset>
+                <fieldset>
+                    <legend>Select Tags:</legend>
+                    {tags.map((tag) => (
+                        <label key={tag.id}>
+                            <input type="checkbox"
+                            value={tag.id}
+                            checked={formData.tag_ids.includes(tag.id)}
+                            onChange={handleTagsChange}
+                            />
+                            {tag.name}
+                        </label>
+                    ))}
+                </fieldset>
+                <button type="submit">Submit</button>
             </form>
         </div>
     )
