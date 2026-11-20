@@ -39,13 +39,13 @@ export default function UserInfo() {
                 <button onClick={handleDelete} type="button" className={format.buttons.button}>Delete User</button>
 
                 <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>Update User</button>
-                {showUpdateForm && (
-                    <UserForm user={user} onUserCreated={() => {
-                        refetch()
-                        setShowUpdateForm(false)
-                    }} />
-                )}
             </div>
+            {showUpdateForm && (
+                <UserForm user={user} onUserCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div>
     )
 }
