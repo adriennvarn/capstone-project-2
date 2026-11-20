@@ -32,7 +32,7 @@ export default function TaskInfo() {
         <div className="align-center">
             <h1 className={format.title}>{task.name}</h1>
             <p className={format.date}>
-                {task?.due_date && task.due_date.slice(0, 10).split("-").slice(1).concat(task.due_date.slice(0, 4)).join("-")}
+                {task?.due_date && format.IsoDateFormatter(task.due_date)}
             </p>
 
             <p className={format.description}>{task.description}</p>

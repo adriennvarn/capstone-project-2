@@ -3,8 +3,10 @@ export const date = "text-xs"
 export const description = ""
 
 export const cards = {
-    container: "grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-4",
-    title: "text-lg"
+    group: "grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-4",
+    container: "border border-sm p-1",
+    title: "text-lg ",
+    subtitle: "text-sm capitalize italic",
 }
 
 export const buttons = {
@@ -17,6 +19,10 @@ export const forms = {
     label: "",
     input: "",
     checkbox: ""
+}
+
+export function IsoDateFormatter(date) {
+    return date.slice(0, 10).split("-").slice(1).concat(date.slice(0, 4)).join("-")
 }
 
 

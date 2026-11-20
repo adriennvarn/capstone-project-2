@@ -28,13 +28,13 @@ export default function ProjectInfo() {
     return (
         <div className="align-center">
             <h1 className={format.title}>{project.name}</h1>
-            <p className={format.date}>{project.due_date}</p>
+            <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
             <p className={format.description}>
-                {project?.due_date && project.due_date.slice(0, 10).split("-").slice(1).concat(project.due_date.slice(0, 4)).join("-")}
+                {project.description}
             </p>
 
             <h3>Tasks:</h3>
-            <div className="mb-2 grid grid-cols-2 md:grid-cols-4 justify-center items-center">
+            <div className={format.cards.group}>
                 {project.tasks.map(task => (
                     <TaskCard key={task.id} task={task} />
                 ))}

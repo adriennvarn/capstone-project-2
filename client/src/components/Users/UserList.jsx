@@ -25,7 +25,7 @@ export default function UserList() {
             )}
 
 
-            <div className={format.cards.container}>
+            <div className={format.cards.group}>
                 {users?.map(user => (
                     <UserCard key={user.id} user={user} />
                 ))}

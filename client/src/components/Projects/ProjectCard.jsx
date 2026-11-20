@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom"
+import * as format from "../../formats"
 
 export default function ProjectCard({ project }) {
     const navigate = useNavigate()
@@ -9,8 +10,8 @@ export default function ProjectCard({ project }) {
 
     return (
         <div onClick={handleClick} className="border border-lg">
-            <h1>{project.name}</h1>
-            <h2>{project.due_date}</h2>
+            <h1 className={format.cards.title}>{project.name}</h1>
+            <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
             <p>{project.description}</p>
 
             <p>Tasks: {project.tasks.length}</p>

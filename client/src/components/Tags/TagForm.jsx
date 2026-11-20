@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { useFetchDataMutation } from "../../hooks/useFetchData"
+import * as format from "../../formats"
 
 export default function TagForm({ onTagCreated }) {
 
@@ -28,7 +29,8 @@ export default function TagForm({ onTagCreated }) {
     return (
         <div>
             <label>
-                <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)} />
+                <input type="text" name="name" value={name} onChange={(e) => setName(e.target.value)}
+                    className={format.forms.input} />
                 New Tag
             </label>
             <button type="button" onClick={handleSubmit}>Add Tag</button>

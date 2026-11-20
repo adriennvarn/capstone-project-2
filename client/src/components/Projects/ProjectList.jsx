@@ -24,7 +24,7 @@ export default function ProjectList() {
                 }}/>
             )}
 
-            <div className={format.cards.container}>
+            <div className={format.cards.group}>
                 {projects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}

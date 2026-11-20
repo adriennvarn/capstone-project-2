@@ -9,8 +9,9 @@ export default function UserCard({ user }) {
     }
 
     return (
-        <div onClick={handleClick} className="border border-sm">
+        <div onClick={handleClick} className={format.cards.container}>
             <h1 className={format.cards.title}>{user.name}</h1>
+            <p className={format.cards.subtitle}>{user.role}</p>
         </div>
     )
 }
