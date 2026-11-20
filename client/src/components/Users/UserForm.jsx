@@ -9,7 +9,7 @@ export default function UserForm({ user, onUserCreated }) {
     const template = {
         name: user?.name || "",
         email: user?.email || "",
-        password: null,
+        password: "",
         role: user?.role || "",
     }
 
@@ -68,6 +68,14 @@ export default function UserForm({ user, onUserCreated }) {
                         onChange={handleChange}
                         className={format.forms.input} />
                     Email
+                </label>
+                <label>
+                    <input type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className={format.forms.input} />
+                    Password
                 </label>
 
                 <fieldset>

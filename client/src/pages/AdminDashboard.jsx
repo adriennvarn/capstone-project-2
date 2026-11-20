@@ -8,11 +8,6 @@ export default function AdminDashboard() {
 
     return (
         <div>
-            <button type="button" className={format.buttons.button} onClick={() => {setShowForm(true)}}>
-                Add User
-                </button>
-
-
             <UserList />
         </div>
     )
