@@ -16,28 +16,26 @@ export default function TagCard({ tag, reloadList }) {
     }
 
     return (
-        <div>
-            <div className={format.cards.container}>
-                <h1 className={format.cards.title}>#{tag.name}</h1>
+        <div className={format.cards.containerSmall}>
+            <h1 className={format.cards.title}>#{tag.name}</h1>
 
-                <div className={format.buttons.container}>
-                    <button className={format.buttons.buttonSmall}
-                        onClick={() => setShowForm(true)}>
-                        Update
-                    </button>
-                    <button className={format.buttons.buttonSmall}
-                        onClick={handleDelete}>
-                        Delete
-                    </button>
-                </div>
-
-                {showForm && (
-                    <TagForm tag={tag} onTagCreated={() => {
-                        reloadList()
-                        setShowForm(false)
-                    }} />
-                )}
+            <div className={format.buttons.container}>
+                <button className={format.buttons.buttonSmall}
+                    onClick={() => setShowForm(true)}>
+                    Update
+                </button>
+                <button className={format.buttons.buttonSmall}
+                    onClick={handleDelete}>
+                    Delete
+                </button>
             </div>
+
+            {showForm && (
+                <TagForm tag={tag} onTagCreated={() => {
+                    reloadList()
+                    setShowForm(false)
+                }} />
+            )}
         </div>
     )
 }
