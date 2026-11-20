@@ -18,7 +18,7 @@ export default function ProjectList() {
         <div>
             <h1 className={format.pages.title}>Projects</h1>
 
-            <p onClick={() => setShowForm(true)}>Add Project</p>
+            <p onClick={() => setShowForm(true)} className={format.buttons.button}>Add Project</p>
             {showForm && (
                 <ProjectForm onProjectCreated={() => {
                     refetch()

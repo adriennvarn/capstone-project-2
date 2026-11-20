@@ -16,7 +16,7 @@ export default function TagList() {
         <div>
             <h1 className={format.pages.subtitle}>Tags</h1>
 
-            <button type="button" onClick={() => setShowForm(true)}>
+            <button type="button" onClick={() => setShowForm(true)} className={format.buttons.button}>
                 Add Tag
             </button>
             {showForm && (

@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@theme {
+    --color-bg: #fff;
+}
+
 .hidden {
     display: none;
 }

@@ -1,24 +1,26 @@
 export const title = "text-3xl font-bold"
 export const date = "text-sm"
-export const description = "my-2"
 
 export const pages = {
+    root: "max-w-full md:max-w-3/4 mx-auto px-4 py-6",
     title: "text-4xl font-semibold",
     subtitle: "text-2xl",
     section: "text-lg font-semibold"
 }
 
 export const cards = {
-    group: "grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-4",
-    container: "border border-sm p-1",
-    title: "text-lg ",
+    group: "flex flex-wrap gap-x-2 gap-y-4 mx-auto justify-center",
+    container: "border border-sm rounded-xl p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] flex flex-col",
+    title: "text-xl font-semibold",
     subtitle: "text-sm capitalize italic",
+    description: "my-8",
+    tags: "text-xs flex flex-wrap items-center justify-center gap-4 mt-auto",
 }
 
 export const buttons = {
-    container: "flex justify-center gap-4",
-    button: "",
-    buttonSmall: "",
+    container: "flex justify-center gap-4 py-3",
+    button: "inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
+    buttonSmall: "inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-1 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
 }
 
 export const forms = {

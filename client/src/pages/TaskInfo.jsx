@@ -35,7 +35,7 @@ export default function TaskInfo() {
                 {task?.due_date && format.IsoDateFormatter(task.due_date)}
             </p>
 
-            <p className={format.description}>{task.description}</p>
+            <p className={format.cards.description}>{task.description}</p>
 
             <div className="my-2">
                 <h3 className="m-1">Users:</h3>

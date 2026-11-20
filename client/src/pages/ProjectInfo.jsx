@@ -26,10 +26,10 @@ export default function ProjectInfo() {
     if (error) return <p>Error: {error}</p>
 
     return (
-        <div className="align-center">
+        <div className={format.pages.root}>
             <h1 className={format.title}>{project.name}</h1>
             <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
-            <p className={format.description}>
+            <p className={format.cards.description}>
                 {project.description}
             </p>
 
@@ -55,9 +55,14 @@ export default function ProjectInfo() {
             </ul>
 
             <div className={format.buttons.container}>
-                <button onClick={handleDelete} type="button">Delete Project</button>
+                <button onClick={handleDelete} type="button" className={format.buttons.button}>
+                    Delete Project
+                </button>
 
-                <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>
+                <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>
+                    Update Project
+                </button>
+
                 {showUpdateForm && (
                     <ProjectForm project={project} onProjectCreated={() => {
                         refetch()
