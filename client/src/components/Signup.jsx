@@ -72,20 +72,26 @@ export default function Signup() {
                     </label>
                 </div>
 
-                <div id="role" className={format.forms.radioContainer}>
-                    <label>
-                        <input type="radio" name="user" onChange={handleRadio} checked={formData.role == "user"}
-                            className={format.forms.radio} />
-                        User</label>
-                    <label>
-                        <input type="radio" name="manager" onChange={handleRadio} checked={formData.role == "manager"}
-                            className={format.forms.radio} />
-                        Manager</label>
-                    <label>
-                        <input type="radio" name="admin" onChange={handleRadio} checked={formData.role == "admin"}
-                            className={format.forms.radio} />
-                        Admin</label>
-                </div>
+                <fieldset className="mx-auto mt-1 mb-2">
+                    <legend className={format.forms.radioLegend}>Select Role</legend>
+                    <div className={format.forms.radioContainer}>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="user" onChange={handleRadio} checked={formData.role == "user"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>User</label>
+                        </div>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="manager" onChange={handleRadio} checked={formData.role == "manager"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>Manager</label>
+                        </div>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="admin" onChange={handleRadio} checked={formData.role == "admin"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>Admin</label>
+                        </div>
+                    </div>
+                </fieldset>
                 <button type="submit" className={`w-fit mx-auto ${format.buttons.button}`}>Sign Up</button>
             </form>
 

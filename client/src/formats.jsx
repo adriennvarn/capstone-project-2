@@ -32,8 +32,11 @@ export const forms = {
     input: "mt-2 p-2 w-full rounded border border-gray-500 shadow-sm sm:text-sm",
     checkbox: "",
     checkboxContainer: "",
-    radio: "",
-    radioContainer: "",
+    radioInput: "h-4 w-4 accent-blue-600",
+    radioLabel: "text-sm text-gray-700 cursor-pointer",
+    radioItem: "flex items-center gap-x-2",
+    radioContainer: "flex items-center gap-x-6",
+    radioLegend: "text-lg mx-auto mt-3 font-medium text-gray-900 mb-1 ",
 }
 
 export function IsoDateFormatter(date) {
