@@ -21,11 +21,11 @@ export default function TagCard({ tag, reloadList }) {
                 <h1 className={format.cards.title}>#{tag.name}</h1>
 
                 <div className={format.buttons.container}>
-                    <button className={format.buttons.button}
+                    <button className={format.buttons.buttonSmall}
                         onClick={() => setShowForm(true)}>
                         Update
                     </button>
-                    <button className={format.buttons.button}
+                    <button className={format.buttons.buttonSmall}
                         onClick={handleDelete}>
                         Delete
                     </button>

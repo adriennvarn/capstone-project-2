@@ -11,14 +11,15 @@ export const cards = {
 
 export const buttons = {
     container: "flex justify-center gap-4",
-    button: ""
+    button: "",
+    buttonSmall: "",
 }
 
 export const forms = {
     container: "",
     label: "",
     input: "",
-    checkbox: ""
+    checkbox: "",
 }
 
 export function IsoDateFormatter(date) {
