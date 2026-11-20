@@ -28,7 +28,7 @@ export function IsoDateFormatter(date) {
 
 export function LoadingSpinner() {
     return (
-        <div class="text-center mt-6" role="status">
+        <div className="text-center mt-6" role="status">
             <svg
                 className="mx-auto size-8 animate-spin text-gray-600"
                 xmlns="http://www.w3.org/2000/svg"
@@ -52,7 +52,7 @@ export function LoadingSpinner() {
                 ></path>
             </svg>
 
-            <p class="mt-2 font-medium text-gray-700">Loading...</p>
+            <p className="mt-2 font-medium text-gray-700">Loading...</p>
         </div>
     )
 }

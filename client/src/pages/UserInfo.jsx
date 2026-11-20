@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
 import { useEffect, useState } from "react"
 import UserForm from "../components/Users/UserForm"
@@ -7,11 +7,21 @@ import * as format from "../formats"
 export default function UserInfo() {
 
     const { id } = useParams()
+    const navigate = useNavigate()
     const [showUpdateForm, setShowUpdateForm] = useState(false)
     const { data: user, loading, error, refetch } = useFetchData(`/api/users/${id}`)
+    const { execute: sendData } = useFetchDataMutation(`/api/users/${id}`)
 
     const handleDelete = async () => {
+        await sendData({
+            method: "DELETE"
+        })
 
+        if (window.history.state?.idx > 0) {
+            navigate(-1)
+        } else {
+            navigate("/home", { replace: true })
+        }
     }
 
     if (loading) return <p>Loading...</p>
