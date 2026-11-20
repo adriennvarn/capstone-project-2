@@ -1,0 +1,39 @@
+import { NavLink, Outlet } from "react-router-dom"
+import { useFetchDataMutation } from "../hooks/useFetchData"
+import { useContext } from "react"
+import { UserContext } from "../contexts/UserContext"
+
+export default function Navbar() {
+
+    const { user, setUser } = useContext(UserContext)
+    const { execute: logout } = useFetchDataMutation()
+
+    const handleSignout = async () => {
+        try {
+            await logout({
+                method: "POST",
+            }, `/api/logout`)
+            setUser({})
+        }
+        // TODO actually implement error handling
+        catch { }
+    }
+
+    return (
+        <>
+            <nav className="sticky mt-0 border-b border-gray-400 pb-2">
+                <h1 className="text-xl font-semibold">Navbar</h1>
+                <ul className="flex gap-10 items-center justify-center">
+                    <li><NavLink to="/home">Home</NavLink></li>
+                    <li><NavLink to="/">Login</NavLink></li>
+                    <li><NavLink to="/" onClick={handleSignout}>Sign Out</NavLink></li>
+                    {user.role === "admin" ? <li><NavLink to="/admin">Admin Dashboard</NavLink></li> : ""}
+                </ul>
+                <p className="mt-1 text-xs text-gray-500">Logged in as: {user.name}</p>
+            </nav>
+            <main>
+                <Outlet />
+            </main>
+        </>
+    )
+}
