@@ -30,33 +30,36 @@ export default function TaskInfo() {
 
     return (
         <div className="align-center">
-            <h1 className={format.title}>{task.name}</h1>
+            <h1 className={format.pages.title}>{task.name}</h1>
             <p className={format.date}>
                 {task?.due_date && format.IsoDateFormatter(task.due_date)}
             </p>
 
             <p className={format.cards.description}>{task.description}</p>
 
+            <ul className={format.cards.tags}>
+                {task.tags.map(tag => (
+                    <li key={tag.id}>#{tag.name}</li>
+                ))}
+            </ul>
+
             <div className="my-2">
-                <h3 className="m-1">Users:</h3>
-                <div className="grid grid-cols-2 md:grid-cols-4 justify-center items-center">
+                <h3 className={format.pages.section}>Users:</h3>
+                <div className={format.cards.group}>
                     {task.users.map(user => (
                         <UserCard key={user.id} user={user} />
                     ))}
                 </div>
             </div>
 
-
-            <ul className="mt-2 mb-1 text-xs flex flex-wrap items-center justify-center gap-3">
-                {task.tags.map(tag => (
-                    <li key={tag.id}>#{tag.name}</li>
-                ))}
-            </ul>
-
             <div className={format.buttons.container}>
-                <button onClick={handleDelete} type="button">Delete Task</button>
-                
-                <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Task</button>
+                <button onClick={handleDelete} type="button" className={format.buttons.button}>
+                    Delete Task
+                </button>
+
+                <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>
+                    Update Task
+                </button>
                 {showUpdateForm && (
                     <TaskForm task={task} onTaskCreated={() => {
                         refetch()

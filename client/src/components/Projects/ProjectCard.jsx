@@ -14,13 +14,15 @@ export default function ProjectCard({ project }) {
             <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
             <p className={format.cards.description}>{project.description}</p>
 
-            <p>Tasks: {project.tasks.length}</p>
+            <div className={format.cards.footer}>
+                <p className="italic">Tasks: {project.tasks.length}</p>
 
-            <ul className={format.cards.tags}>
-                {project.tags.map(tag => (
-                    <li key={tag.id}>#{tag.name}</li>
-                ))}
-            </ul>
+                <ul className={format.cards.tags}>
+                    {project.tags.map(tag => (
+                        <li key={tag.id}>#{tag.name}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

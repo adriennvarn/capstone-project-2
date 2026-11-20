@@ -27,11 +27,17 @@ export default function ProjectInfo() {
 
     return (
         <div className={format.pages.root}>
-            <h1 className={format.title}>{project.name}</h1>
+            <h1 className={format.pages.title}>{project.name}</h1>
             <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
-            <p className={format.cards.description}>
+            <p className={format.pages.description}>
                 {project.description}
             </p>
+
+            <ul className={format.cards.tags}>
+                {project.tags.map(tag => (
+                    <li key={tag.id}>#{tag.name}</li>
+                ))}
+            </ul>
 
             <h3 className={format.pages.section}>Tasks:</h3>
             <div className={format.cards.group}>
@@ -40,19 +46,13 @@ export default function ProjectInfo() {
                 ))}
             </div>
 
-            <p onClick={() => setShowTaskForm(true)} className="semibold">Add Task</p>
+            <p onClick={() => setShowTaskForm(true)} className={format.buttons.button}>Add Task</p>
             {showTaskForm &&
                 (<TaskForm project={project} onTaskCreated={() => {
                     refetch()
                     setShowTaskForm(false)
                 }} />)
             }
-
-            <ul className="mt-2 text-xs flex flex-wrap items-center justify-center gap-4">
-                {project.tags.map(tag => (
-                    <li key={tag.id}>#{tag.name}</li>
-                ))}
-            </ul>
 
             <div className={format.buttons.container}>
                 <button onClick={handleDelete} type="button" className={format.buttons.button}>

@@ -30,7 +30,7 @@ export default function UserInfo() {
     return (
         <div>
             <div className="align-center">
-                <h1 className={format.title}>{user.name}</h1>
+                <h1 className={format.pages.title}>{user.name}</h1>
                 <h2 className="capitalize">{user.role}</h2>
                 <p className="italic">{user.email}</p>
             </div>

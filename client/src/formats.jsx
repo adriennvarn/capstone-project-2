@@ -1,25 +1,27 @@
-export const title = "text-3xl font-bold"
-export const date = "text-sm"
+export const date = "text-sm text-slate-600"
 
 export const pages = {
     root: "max-w-full md:max-w-3/4 mx-auto px-4 py-6",
-    title: "text-4xl font-semibold",
+    title: "text-4xl font-bold mb-1.5",
+    description: "text-lg py-2",
     subtitle: "text-2xl",
-    section: "text-lg font-semibold"
+    section: "text-xl font-semibold mt-5 mb-1"
 }
 
 export const cards = {
     group: "flex flex-wrap gap-x-2 gap-y-4 mx-auto justify-center",
-    container: "border border-sm rounded-xl p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(25%-0.75rem)] flex flex-col",
+    container: "border border-sm rounded-xl p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] flex flex-col",
+    header: "",
     title: "text-xl font-semibold",
     subtitle: "text-sm capitalize italic",
-    description: "my-8",
+    description: "my-auto py-2.5",
     tags: "text-xs flex flex-wrap items-center justify-center gap-4 mt-auto",
+    footer: "mt-auto",
 }
 
 export const buttons = {
-    container: "flex justify-center gap-4 py-3",
-    button: "inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
+    container: "flex justify-center gap-4",
+    button: "inline-flex items-center justify-center my-3 rounded-full border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
     buttonSmall: "inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-1 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
 }
 
