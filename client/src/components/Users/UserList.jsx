@@ -14,6 +14,8 @@ export default function UserList() {
 
     return (
         <div>
+            <h1 className={format.pages.subtitle}>Users</h1>
+
             <button type="button" className={format.buttons.button} onClick={() => { setShowForm(true) }}>
                 Add User
             </button>

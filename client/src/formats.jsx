@@ -1,6 +1,12 @@
-export const title = "text-xl"
-export const date = "text-xs"
-export const description = ""
+export const title = "text-3xl font-bold"
+export const date = "text-sm"
+export const description = "my-2"
+
+export const pages = {
+    title: "text-4xl font-semibold",
+    subtitle: "text-2xl",
+    section: "text-lg font-semibold"
+}
 
 export const cards = {
     group: "grid grid-cols-2 md:grid-cols-4 gap-x-2 gap-y-4",

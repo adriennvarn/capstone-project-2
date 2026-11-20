@@ -33,7 +33,7 @@ export default function ProjectInfo() {
                 {project.description}
             </p>
 
-            <h3>Tasks:</h3>
+            <h3 className={format.pages.section}>Tasks:</h3>
             <div className={format.cards.group}>
                 {project.tasks.map(task => (
                     <TaskCard key={task.id} task={task} />

@@ -16,6 +16,8 @@ export default function ProjectList() {
 
     return (
         <div>
+            <h1 className={format.pages.title}>Projects</h1>
+
             <p onClick={() => setShowForm(true)}>Add Project</p>
             {showForm && (
                 <ProjectForm onProjectCreated={() => {
