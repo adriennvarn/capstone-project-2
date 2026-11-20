@@ -2,7 +2,7 @@ export const date = "text-sm text-slate-600"
 
 export const pages = {
     root: "max-w-full md:max-w-3/4 mx-auto px-4 py-6",
-    title: "text-4xl font-bold mb-1.5",
+    title: "text-4xl font-bold mb-4",
     description: "text-lg py-2",
     subtitle: "text-2xl font-semibold",
     section: "text-xl font-semibold mt-5 mb-1"
@@ -30,8 +30,10 @@ export const forms = {
     containerVertical: "flex flex-col justify-center md:w-1/2 lg:w-1/3 mx-auto",
     label: "text-sm font-medium text-gray-700",
     input: "mt-2 p-2 w-full rounded border border-gray-500 shadow-sm sm:text-sm",
-    checkbox: "",
-    checkboxContainer: "",
+    checkboxInput: "size-3 rounded border-gray-300 shadow-sm",
+    checkboxItem: "flex items-center gap-x-2",
+    checkboxLabel: "capitalize text-sm text-gray-700 cursor-pointer",
+    checkboxLegend: "text-lg mx-auto mt-3 font-medium text-gray-900 mb-1",
     radioInput: "h-4 w-4 accent-blue-600",
     radioLabel: "text-sm text-gray-700 cursor-pointer",
     radioItem: "flex items-center gap-x-2",
