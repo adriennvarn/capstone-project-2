@@ -12,7 +12,6 @@ export const cards = {
     group: "flex flex-wrap gap-x-2 gap-y-4 mx-auto justify-center",
     container: "border border-sm rounded-xl p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] flex flex-col",
     containerSmall: "border border-sm rounded-xl p-2 w-full sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] flex flex-col",
-    header: "",
     title: "text-xl font-semibold",
     subtitle: "text-sm capitalize italic",
     description: "my-auto py-2.5",
@@ -27,10 +26,14 @@ export const buttons = {
 }
 
 export const forms = {
-    container: "",
-    label: "",
-    input: "",
+    container: "flex justify-center gap-x-4",
+    containerVertical: "flex flex-col justify-center md:w-1/2 lg:w-1/3 mx-auto",
+    label: "text-sm font-medium text-gray-700",
+    input: "mt-2 p-2 w-full rounded border border-gray-500 shadow-sm sm:text-sm",
     checkbox: "",
+    checkboxContainer: "",
+    radio: "",
+    radioContainer: "",
 }
 
 export function IsoDateFormatter(date) {
