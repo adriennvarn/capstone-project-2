@@ -91,12 +91,10 @@ export default function TaskForm({ project, task, onTaskCreated }) {
     }
 
     if (tagsLoading || usersLoading) return <format.LoadingSpinner />
-    if (tagsError || usersError) {
-        console.error(tags)
-        console.error(users)
+    if (tagsError || usersError || error) {
         return (
             <div>
-                <p>Error: {tagsError || usersError}</p>
+                <p>Error: {tagsError ? tagsError : (usersError ? usersError : error)}</p>
             </div>
         )
     }

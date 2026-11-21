@@ -43,6 +43,8 @@ export default function Login() {
         }
     }, [data, error, navigate])
 
+    if (error) return <p>Error: {error}</p>
+
     return (
         <div>
             <form onSubmit={handleSubmit} className={format.forms.containerVertical}>

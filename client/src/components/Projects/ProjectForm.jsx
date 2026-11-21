@@ -67,12 +67,13 @@ export default function ProjectForm({ project, onProjectCreated }) {
                 if (onProjectCreated) onProjectCreated()
             }
             // TODO actually implement error handling
-            catch { }
+            catch {  }
         }
     }
 
     if (tagsLoading) return <format.LoadingSpinner />
     if (tagsError) return <p>Error: {tagsError}</p>
+    if (error) return <p>Error: {error}</p>
 
     return (
         <div>

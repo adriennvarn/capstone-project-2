@@ -50,6 +50,8 @@ export default function UserForm({ user, onUserCreated }) {
         }
     }
 
+    if (error) return <p>Error: {error}</p>
+
     return (
         <div>
             <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
