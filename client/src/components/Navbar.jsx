@@ -13,7 +13,7 @@ export default function Navbar() {
             await logout({
                 method: "POST",
             }, `/api/logout`)
-            setUser({})
+            setUser(null)
         }
         // TODO actually implement error handling
         catch { }
@@ -22,14 +22,20 @@ export default function Navbar() {
     return (
         <>
             <nav className="sticky mt-0 border-b border-gray-400 pb-2">
-                <h1 className="text-xl font-semibold">Navbar</h1>
+                <h1 className="text-2xl font-semibold">Project Management</h1>
                 <ul className="flex gap-10 items-center justify-center">
-                    <li><NavLink to="/home">Home</NavLink></li>
-                    <li><NavLink to="/">Login</NavLink></li>
-                    <li><NavLink to="/" onClick={handleSignout}>Sign Out</NavLink></li>
-                    {user.role === "admin" ? <li><NavLink to="/admin">Admin Dashboard</NavLink></li> : ""}
+                    {!user ?
+                        <li><NavLink to="/">Login</NavLink></li> :
+                        <>
+                            <li><NavLink to="/home">Home</NavLink></li>
+                            {user.role === "admin" ? <li><NavLink to="/admin">Admin Dashboard</NavLink></li> : ""}
+                            <li><NavLink to="/" onClick={handleSignout}>Sign Out</NavLink></li>
+                        </>}
+
                 </ul>
-                <p className="mt-1 text-xs text-gray-500">Logged in as: {user.name}</p>
+                {user &&
+                    <p className="mt-1 text-xs text-gray-500">Logged in as: {user?.name}</p>
+                }
             </nav>
             <main>
                 <Outlet />
