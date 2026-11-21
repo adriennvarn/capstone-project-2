@@ -29,7 +29,7 @@ export default function TaskInfo() {
     if (error) return <p>Error: {error}</p>
 
     return (
-        <div className="align-center">
+        <div className={format.pages.root}>
             <h1 className={format.pages.title}>{task.name}</h1>
             <p className={format.date}>
                 {task?.due_date && format.IsoDateFormatter(task.due_date)}
@@ -60,13 +60,14 @@ export default function TaskInfo() {
                 <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>
                     Update Task
                 </button>
-                {showUpdateForm && (
-                    <TaskForm task={task} onTaskCreated={() => {
-                        refetch()
-                        setShowUpdateForm(false)
-                    }} />
-                )}
             </div>
+
+            {showUpdateForm && (
+                <TaskForm task={task} onTaskCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div>
     )
 }

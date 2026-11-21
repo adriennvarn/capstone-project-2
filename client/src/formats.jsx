@@ -2,37 +2,37 @@ export const date = "text-sm text-slate-600"
 
 export const pages = {
     root: "max-w-full md:max-w-3/4 mx-auto px-4 py-6",
-    title: "text-4xl font-bold mb-4",
+    title: "text-4xl font-bold text-accent text-shadow-sm mb-4",
     description: "text-lg py-2",
     subtitle: "text-2xl font-semibold",
-    section: "text-xl font-semibold mt-5 mb-1"
+    section: "text-xl font-semibold text-accent mt-5 mb-1"
 }
 
 export const cards = {
     group: "flex flex-wrap gap-x-2 gap-y-4 mx-auto justify-center",
-    container: "border border-sm rounded-xl p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] flex flex-col",
-    containerSmall: "border border-sm rounded-xl p-2 w-full sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] flex flex-col",
-    title: "text-xl font-semibold",
+    container: "border border-sm border-dark rounded-xl bg-white/70 p-2 w-full sm:w-[calc(50%-0.5rem)] lg:w-[calc(33.333%-0.67rem)] flex flex-col",
+    containerSmall: "border border-sm rounded-xl bg-white/70 p-2 w-full sm:w-[calc(33.333%-0.67rem)] lg:w-[calc(20%-0.8rem)] flex flex-col",
+    title: "text-xl font-bold text-bright",
     subtitle: "text-sm capitalize italic",
     description: "my-auto py-2.5",
-    tags: "text-xs flex flex-wrap items-center justify-center gap-4 mt-auto",
+    tags: "text-xs text-slate-700 flex flex-wrap items-center justify-center gap-4 mt-auto",
     footer: "mt-auto",
 }
 
 export const buttons = {
-    container: "flex justify-center gap-3",
-    button: "inline-flex items-center justify-center mb-3 mt-2 rounded-full border border-slate-300 bg-white px-6 py-2 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
-    buttonSmall: "inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-4 py-1 text-sm font-semibold text-slate-700 shadow-sm transition-colors hover:border-slate-400 hover:bg-slate-50 hover:text-slate-900 focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
+    container: "flex justify-center gap-3 pt-1",
+    button: "inline-flex items-center justify-center mb-3 mt-2 rounded-full border border-dark bg-white px-6 py-2 text-sm font-semibold text-dark shadow-sm shadow-accent transition-colors hover:border-black hover:bg-accent hover:text-white focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
+    buttonSmall: "inline-flex items-center justify-center rounded-full border border-dark bg-white px-4 py-1 text-xs font-semibold text-dark shadow-sm shadow-accent transition-colors hover:border-black hover:bg-accent hover:text-white focus-visible:ring-4 focus-visible:ring-slate-200 focus-visible:outline-hidden",
 }
 
 export const forms = {
     container: "flex justify-center gap-x-4",
     containerVertical: "flex flex-col justify-center md:w-1/2 lg:w-1/3 mx-auto",
     label: "text-sm font-medium text-gray-700",
-    input: "mt-2 p-2 w-full rounded border border-gray-500 shadow-sm sm:text-sm",
+    input: "mt-2 p-2 w-full bg-white/70 rounded border border-gray-500 shadow-sm sm:text-sm",
     checkboxInput: "size-3 rounded border-gray-300 shadow-sm",
     checkboxItem: "flex items-center gap-x-2",
-    checkboxLabel: "capitalize text-sm text-gray-700 cursor-pointer",
+    checkboxLabel: "text-sm text-gray-700 cursor-pointer",
     checkboxLegend: "text-lg mx-auto mt-3 font-medium text-gray-900 mb-1",
     radioInput: "h-4 w-4 accent-blue-600",
     radioLabel: "text-sm text-gray-700 cursor-pointer",

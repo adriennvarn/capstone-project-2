@@ -103,49 +103,51 @@ export default function TaskForm({ project, task, onTaskCreated }) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.forms.input} />
-                    Task Name
-                </label>
-                <label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.forms.input} />
-                    Description
-                </label>
-                <label>
-                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
-                    Due Date
-                </label>
-                <fieldset className="align-center">
-                    <legend className="align-center">Assign Users:</legend>
+            <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
+                <div className="flex flex-col gap-y-3">
+                    <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className={format.forms.input} />
+                    <input type="text" name="description"
+                        placeholder="Description" value={formData.description} onChange={handleChange} className={format.forms.input} />
+                    <div>
+                        <label className={format.forms.label}>Due Date</label>
+                        <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
+                    </div>
+                </div>
+                <fieldset>
+                    <legend className={format.forms.checkboxLegend}>Assign Users:</legend>
                     {users.map((user) => (
-                        <label key={user.id}>
-                            <input type="checkbox"
+                        <div key={user.id} className={format.forms.checkboxItem}>
+                            <input id={`user-${user.id}`}
+                                type="checkbox"
                                 value={user.id}
                                 checked={formData.user_ids.includes(user.id)}
                                 onChange={handleUsersChange}
-                                className={format.forms.checkbox}
+                                className={format.forms.checkboxInput}
                             />
-                            {user.name}
-                        </label>
+                            <label htmlFor={`user-${user.id}`} className={format.forms.checkboxLabel} >
+                                {user.name}
+                            </label>
+                        </div>
                     ))}
                 </fieldset>
                 <fieldset>
-                    <legend>Select Tags:</legend>
+                    <legend className={format.forms.checkboxLegend}>Select Tags:</legend>
                     {tags.map((tag) => (
-                        <label key={tag.id}>
-                            <input type="checkbox"
+                        <div key={tag.id} className={format.forms.checkboxItem}>
+                            <input id={`tag-${tag.id}`}
+                                type="checkbox"
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
-                                className={format.forms.checkbox}
+                                className={format.forms.checkboxInput}
                             />
-                            {tag.name}
-                        </label>
+                            <label htmlFor={`tag-${tag.id}`} className={format.forms.checkboxLabel}>{tag.name}</label>
+                        </div>
                     ))}
                 </fieldset>
+
                 <div>
-                    <p onClick={() => setShowTagForm(true)}>Add Tag</p>
+                    <button type="button" onClick={() => setShowTagForm(true)} className={format.buttons.buttonSmall}>New Tag</button>
                     {showTagForm && (
                         <TagForm
                             onTagCreated={() => {
@@ -155,8 +157,8 @@ export default function TaskForm({ project, task, onTaskCreated }) {
                         />
                     )}
                 </div>
-                <button type="submit">Submit</button>
+                <button type="submit" className={format.buttons.button}>Submit</button>
             </form>
-        </div>
+        </div >
     )
 }

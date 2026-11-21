@@ -1,7 +1,10 @@
 @import "tailwindcss";
 
 @theme {
-    --color-bg: #fff;
+    --color-bg: #F5EBDD;
+    --color-bright: #db644d;
+    --color-accent: #315B8C;
+    --color-dark: #413333;
 }
 
 .hidden {

@@ -46,7 +46,11 @@ export default function ProjectInfo() {
                 ))}
             </div>
 
-            <p onClick={() => setShowTaskForm(true)} className={format.buttons.button}>Add Task</p>
+            <p onClick={() => {
+                setShowTaskForm(true)
+                setShowUpdateForm(false)
+            }
+            } className={format.buttons.button}>Add Task</p>
             {showTaskForm &&
                 (<TaskForm project={project} onTaskCreated={() => {
                     refetch()
@@ -59,17 +63,20 @@ export default function ProjectInfo() {
                     Delete Project
                 </button>
 
-                <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>
+                <button onClick={() => {
+                    setShowUpdateForm(true)
+                    setShowTaskForm(false)
+                }} type="button" className={format.buttons.button}>
                     Update Project
                 </button>
-
-                {showUpdateForm && (
-                    <ProjectForm project={project} onProjectCreated={() => {
-                        refetch()
-                        setShowUpdateForm(false)
-                    }} />
-                )}
             </div>
+
+            {showUpdateForm && (
+                <ProjectForm project={project} onProjectCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div >
     )
 }

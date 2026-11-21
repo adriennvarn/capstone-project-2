@@ -7,7 +7,7 @@ export default function TagForm({ tag, onTagCreated }) {
     const [name, setName] = useState(tag ? tag.name : "")
     const { execute: sendData, error } = useFetchDataMutation("/api/tags")
 
-    const handleSubmit = async (e) => {
+    const handleTagSubmit = async (e) => {
         e.preventDefault()
         if (!name.trim()) return
 
@@ -44,7 +44,7 @@ export default function TagForm({ tag, onTagCreated }) {
         <div>
             <input type="text" name="name" value={name} placeholder="New Tag"
                 onChange={(e) => setName(e.target.value)} className={format.forms.input} />
-            <button type="button" onClick={handleSubmit} className={format.buttons.buttonSmall}>Add Tag</button>
+            <button type="button" onClick={handleTagSubmit} className={format.buttons.buttonSmall}>Add Tag</button>
         </div>
     )
 }

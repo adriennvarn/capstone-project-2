@@ -104,7 +104,7 @@ export default function ProjectForm({ project, onProjectCreated }) {
                 </fieldset>
 
                 <div>
-                    <button onClick={() => setShowTagForm(true)} className={format.buttons.buttonSmall}>New Tag</button>
+                    <button type="button" onClick={() => setShowTagForm(true)} className={format.buttons.buttonSmall}>New Tag</button>
                     {showTagForm && (
                         <TagForm
                             onTagCreated={() => {
