@@ -54,7 +54,7 @@ export default function ProjectForm({ project, onProjectCreated }) {
                 }, `/api/projects/${project.id}`)
                 if (onProjectCreated) onProjectCreated()
             }
-            catch {}
+            catch { }
         } else {
             try {
                 await sendData({
@@ -76,37 +76,35 @@ export default function ProjectForm({ project, onProjectCreated }) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit}>
-                <label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} className={format.forms.input} />
-                    Project Name
-                </label>
-                <label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} className={format.forms.input} />
-                    Description
-                </label>
-                <label>
-                    <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
-                    Due Date
-                </label>
+            <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
+                <div className="flex flex-col gap-y-3">
+                    <input type="text" name="name" placeholder="Name" value={formData.name} onChange={handleChange} className={format.forms.input} />
+                    <input type="text" name="description"
+                        placeholder="Description" value={formData.description} onChange={handleChange} className={format.forms.input} />
+                    <div>
+                        <label className={format.forms.label}>Due Date</label>
+                        <input type="date" name="due_date" value={formData.due_date} onChange={handleChange} className={format.forms.input} />
+                    </div>
+                </div>
 
                 <fieldset>
-                    <legend>Select Tags:</legend>
+                    <legend className={format.forms.checkboxLegend}>Select Tags:</legend>
                     {tags.map((tag) => (
-                        <label key={tag.id}>
-                            <input type="checkbox"
+                        <div key={tag.id} className={format.forms.checkboxItem}>
+                            <input id={`tag-${tag.id}`}
+                                type="checkbox"
                                 value={tag.id}
                                 checked={formData.tag_ids.includes(tag.id)}
                                 onChange={handleTagsChange}
-                                className={format.forms.checkbox}
+                                className={format.forms.checkboxInput}
                             />
-                            {tag.name}
-                        </label>
+                            <label htmlFor={`tag-${tag.id}`} className={format.forms.checkboxLabel}>{tag.name}</label>
+                        </div>
                     ))}
                 </fieldset>
 
                 <div>
-                    <p onClick={() => setShowTagForm(true)}>Add Tag</p>
+                    <button type="button" onClick={() => setShowTagForm(true)} className={format.buttons.buttonSmall}>New Tag</button>
                     {showTagForm && (
                         <TagForm
                             onTagCreated={() => {
@@ -117,7 +115,7 @@ export default function ProjectForm({ project, onProjectCreated }) {
                     )}
                 </div>
 
-                <button type="submit">Submit</button>
+                <button type="submit" className={format.buttons.button}>Submit</button>
             </form>
         </div>
     )

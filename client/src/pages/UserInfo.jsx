@@ -30,7 +30,7 @@ export default function UserInfo() {
     return (
         <div>
             <div className="align-center">
-                <h1 className={format.title}>{user.name}</h1>
+                <h1 className={format.pages.title}>{user.name}</h1>
                 <h2 className="capitalize">{user.role}</h2>
                 <p className="italic">{user.email}</p>
             </div>
@@ -39,13 +39,13 @@ export default function UserInfo() {
                 <button onClick={handleDelete} type="button" className={format.buttons.button}>Delete User</button>
 
                 <button onClick={() => { setShowUpdateForm(true) }} type="button" className={format.buttons.button}>Update User</button>
-                {showUpdateForm && (
-                    <UserForm user={user} onUserCreated={() => {
-                        refetch()
-                        setShowUpdateForm(false)
-                    }} />
-                )}
             </div>
+            {showUpdateForm && (
+                <UserForm user={user} onUserCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div>
     )
 }

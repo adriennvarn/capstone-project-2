@@ -33,7 +33,7 @@ export default function Login() {
             }, `/api/login`)
         }
         // TODO actually implement error handling
-        catch {}
+        catch { }
     }
 
     useEffect(() => {
@@ -45,10 +45,18 @@ export default function Login() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="mt-5">
-                <input type="email" name="email" placeholder="Email Address" onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-                <button type="submit">Login</button>
+            <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
+                <div className="flex flex-col gap-y-3">
+                    <label>
+                        <input type="email" name="email" placeholder="Email Address" autoComplete="email"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
+                    <label>
+                        <input type="password" name="password" placeholder="Password" autoComplete="current-password"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
+                    <button type="submit" className={`w-fit mx-auto ${format.buttons.button}`}>Login</button>
+                </div>
             </form>
 
             <div className={`${!loading ? "hidden" : ""}`}>

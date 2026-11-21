@@ -16,19 +16,21 @@ export default function ProjectList() {
 
     return (
         <div>
-            <p onClick={() => setShowForm(true)}>Add Project</p>
-            {showForm && (
-                <ProjectForm onProjectCreated={() => {
-                    refetch()
-                    setShowForm(false)
-                }}/>
-            )}
+            <h1 className={format.pages.title}>Projects</h1>
 
             <div className={format.cards.group}>
                 {projects.map(project => (
                     <ProjectCard key={project.id} project={project} />
                 ))}
             </div>
+
+            <p onClick={() => setShowForm(true)} className={format.buttons.button}>Add Project</p>
+            {showForm && (
+                <ProjectForm onProjectCreated={() => {
+                    refetch()
+                    setShowForm(false)
+                }} />
+            )}
         </div>
     )
 }

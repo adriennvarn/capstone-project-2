@@ -9,18 +9,20 @@ export default function ProjectCard({ project }) {
     }
 
     return (
-        <div onClick={handleClick} className="border border-lg">
+        <div onClick={handleClick} className={format.cards.container}>
             <h1 className={format.cards.title}>{project.name}</h1>
             <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
-            <p>{project.description}</p>
+            <p className={format.cards.description}>{project.description}</p>
 
-            <p>Tasks: {project.tasks.length}</p>
+            <div className={format.cards.footer}>
+                <p className="italic">Tasks: {project.tasks.length}</p>
 
-            <ul className="text-xs flex flex-wrap items-center justify-center gap-4">
-                {project.tags.map(tag => (
-                    <li key={tag.id}>#{tag.name}</li>
-                ))}
-            </ul>
+                <ul className={format.cards.tags}>
+                    {project.tags.map(tag => (
+                        <li key={tag.id}>#{tag.name}</li>
+                    ))}
+                </ul>
+            </div>
         </div>
     )
 }

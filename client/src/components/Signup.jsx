@@ -55,22 +55,44 @@ export default function Signup() {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="mt-5">
-                <input type="text" name="name" placeholder="Name" onChange={handleChange} />
-                <input type="email" name="email" placeholder="Email Address" onChange={handleChange} />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} />
-                <div id="role">
+            <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
+                <div className="flex flex-col gap-y-3">
                     <label>
-                        <input type="radio" name="user" onChange={handleRadio} checked={formData.role == "user"} />
-                        User</label>
+                        <input type="text" name="name" placeholder="Name" autoComplete="name"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
                     <label>
-                        <input type="radio" name="manager" onChange={handleRadio} checked={formData.role == "manager"} />
-                        Manager</label>
+                        <input type="email" name="email" placeholder="Email Address" autoComplete="email"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
+
                     <label>
-                        <input type="radio" name="admin" onChange={handleRadio} checked={formData.role == "admin"} />
-                        Admin</label>
+                        <input type="password" name="password" placeholder="Password" autoComplete="new-password"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
                 </div>
-                <button type="submit">Sign Up</button>
+
+                <fieldset className="mx-auto mt-1 mb-2">
+                    <legend className={format.forms.radioLegend}>Select Role</legend>
+                    <div className={format.forms.radioContainer}>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="user" onChange={handleRadio} checked={formData.role == "user"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>User</label>
+                        </div>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="manager" onChange={handleRadio} checked={formData.role == "manager"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>Manager</label>
+                        </div>
+                        <div className={format.forms.radioItem}>
+                            <input type="radio" name="admin" onChange={handleRadio} checked={formData.role == "admin"}
+                                className={format.forms.radioInput} />
+                            <label className={format.forms.radioLabel}>Admin</label>
+                        </div>
+                    </div>
+                </fieldset>
+                <button type="submit" className={`w-fit mx-auto ${format.buttons.button}`}>Sign Up</button>
             </form>
 
             <div className={`${!loading ? "hidden" : ""}`}>

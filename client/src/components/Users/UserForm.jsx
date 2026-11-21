@@ -52,48 +52,43 @@ export default function UserForm({ user, onUserCreated }) {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} className="mt-5">
-                <label>
-                    <input type="text"
-                        name="name"
-                        value={formData.name}
-                        onChange={handleChange}
-                        className={format.forms.input} />
-                    Name
-                </label>
-                <label>
-                    <input type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className={format.forms.input} />
-                    Email
-                </label>
-                <label>
-                    <input type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className={format.forms.input} />
-                    Password
-                </label>
+            <form onSubmit={handleSubmit} className={format.forms.containerVertical}>
+                <div className="flex flex-col gap-y-3">
+                    <label>
+                        <input type="text" name="name" placeholder="Name" autoComplete="name"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
+                    <label>
+                        <input type="email" name="email" placeholder="Email Address" autoComplete="email"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
 
-                <fieldset>
-                    <legend>Role:</legend>
+                    <label>
+                        <input type="password" name="password" placeholder="Password" autoComplete="new-password"
+                            onChange={handleChange} className={format.forms.input} />
+                    </label>
+                </div>
 
-                    {OPTIONS.map((role) => (
-                        <label key={role}>
-                            <input type="radio"
-                                name="role"
-                                value={role}
-                                checked={formData.role === role}
-                                onChange={handleChange} />
-                            <span className="capitalize">{role}</span>
-                        </label>
-                    ))}
+                <fieldset className="mx-auto mt-1 mb-2">
+                    <legend className={format.forms.radioLegend}>Role:</legend>
+
+                    <div className={format.forms.radioContainer}>
+                        {OPTIONS.map((role) => (
+                            <div key={role} className={format.forms.radioItem}>
+                                <input type="radio"
+                                    name="role"
+                                    value={role}
+                                    checked={formData.role === role}
+                                    onChange={handleChange}
+                                    className={format.forms.radioInput} />
+                                <label className={`capitalize ${format.forms.radioLabel}`}>{role}</label>
+                            </div>
+                        ))}
+                    </div>
                 </fieldset>
 
-                <button type="submit">Submit</button>
+
+                <button type="submit" className={`w-fit mx-auto ${format.buttons.button}`}>Submit</button>
             </form>
         </div>
     )

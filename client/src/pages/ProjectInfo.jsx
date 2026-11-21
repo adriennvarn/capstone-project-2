@@ -26,21 +26,31 @@ export default function ProjectInfo() {
     if (error) return <p>Error: {error}</p>
 
     return (
-        <div className="align-center">
-            <h1 className={format.title}>{project.name}</h1>
+        <div className={format.pages.root}>
+            <h1 className={format.pages.title}>{project.name}</h1>
             <p className={format.date}>{format.IsoDateFormatter(project.due_date)}</p>
-            <p className={format.description}>
+            <p className={format.pages.description}>
                 {project.description}
             </p>
 
-            <h3>Tasks:</h3>
+            <ul className={format.cards.tags}>
+                {project.tags.map(tag => (
+                    <li key={tag.id}>#{tag.name}</li>
+                ))}
+            </ul>
+
+            <h3 className={format.pages.section}>Tasks:</h3>
             <div className={format.cards.group}>
                 {project.tasks.map(task => (
                     <TaskCard key={task.id} task={task} />
                 ))}
             </div>
 
-            <p onClick={() => setShowTaskForm(true)} className="semibold">Add Task</p>
+            <p onClick={() => {
+                setShowTaskForm(true)
+                setShowUpdateForm(false)
+            }
+            } className={format.buttons.button}>Add Task</p>
             {showTaskForm &&
                 (<TaskForm project={project} onTaskCreated={() => {
                     refetch()
@@ -48,23 +58,25 @@ export default function ProjectInfo() {
                 }} />)
             }
 
-            <ul className="mt-2 text-xs flex flex-wrap items-center justify-center gap-4">
-                {project.tags.map(tag => (
-                    <li key={tag.id}>#{tag.name}</li>
-                ))}
-            </ul>
-
             <div className={format.buttons.container}>
-                <button onClick={handleDelete} type="button">Delete Project</button>
+                <button onClick={handleDelete} type="button" className={format.buttons.button}>
+                    Delete Project
+                </button>
 
-                <button onClick={() => { setShowUpdateForm(true) }} type="button">Update Project</button>
-                {showUpdateForm && (
-                    <ProjectForm project={project} onProjectCreated={() => {
-                        refetch()
-                        setShowUpdateForm(false)
-                    }} />
-                )}
+                <button onClick={() => {
+                    setShowUpdateForm(true)
+                    setShowTaskForm(false)
+                }} type="button" className={format.buttons.button}>
+                    Update Project
+                </button>
             </div>
+
+            {showUpdateForm && (
+                <ProjectForm project={project} onProjectCreated={() => {
+                    refetch()
+                    setShowUpdateForm(false)
+                }} />
+            )}
         </div >
     )
 }
