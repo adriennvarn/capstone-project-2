@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { useFetchData, useFetchDataMutation } from "../../hooks/useFetchData"
 import TagForm from "../Tags/TagForm"
 import * as format from "../../formats"
@@ -14,7 +14,6 @@ export default function ProjectForm({ project, onProjectCreated }) {
 
     const [formData, setFormData] = useState(template)
     const [showTagForm, setShowTagForm] = useState(false)
-    const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
     const { data: tags, loading: tagsLoading, error: tagsError, refetch: refetchTags } = useFetchData("/api/tags")
 
@@ -63,11 +62,11 @@ export default function ProjectForm({ project, onProjectCreated }) {
                     body: JSON.stringify(formData)
                 }, `/api/projects`)
 
-                setFormData(blankForm)
+                setFormData(template)
                 if (onProjectCreated) onProjectCreated()
             }
             // TODO actually implement error handling
-            catch {  }
+            catch { }
         }
     }
 

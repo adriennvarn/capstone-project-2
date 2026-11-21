@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { useFetchData, useFetchDataMutation } from "../../hooks/useFetchData"
 import TagForm from "../Tags/TagForm"
 import * as format from "../../formats"
@@ -16,7 +16,6 @@ export default function TaskForm({ project, task, onTaskCreated }) {
 
     const [formData, setFormData] = useState(template)
     const [showTagForm, setShowTagForm] = useState(false)
-    const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
     const { data: tags, loading: tagsLoading, error: tagsError, refetch: refetchTags } = useFetchData("/api/tags")
     const { data: users, loading: usersLoading, error: usersError } = useFetchData("/api/users")

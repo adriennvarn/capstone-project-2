@@ -1,4 +1,4 @@
-import { useState, useRef } from "react"
+import { useState } from "react"
 import { useFetchDataMutation } from "../../hooks/useFetchData"
 import * as format from "../../formats"
 
@@ -14,7 +14,6 @@ export default function UserForm({ user, onUserCreated }) {
     }
 
     const [formData, setFormData] = useState(template)
-    const inputRef = useRef()
     const { execute: sendData, error } = useFetchDataMutation()
 
     const handleChange = (e) => {

@@ -41,7 +41,7 @@ export default function Login() {
             setUser(data)
             navigate("/home")
         }
-    }, [data, error, navigate])
+    }, [data, error, navigate, setUser])
 
     if (error) return <p>Error: {error}</p>
 

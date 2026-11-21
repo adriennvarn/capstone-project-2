@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import ProjectCard from "./ProjectCard"
 import ProjectForm from "./ProjectForm"
 import * as format from "../../formats"
-import { useFetchData, useFetchDataMutation } from "../../hooks/useFetchData"
+import { useFetchData } from "../../hooks/useFetchData"
 
 export default function ProjectList() {
 

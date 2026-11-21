@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
 import { useFetchData, useFetchDataMutation } from "../hooks/useFetchData"
-import { useEffect, useState } from "react"
+import { useState } from "react"
 import UserForm from "../components/Users/UserForm"
 import * as format from "../formats"
 

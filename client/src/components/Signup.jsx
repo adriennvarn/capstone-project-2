@@ -51,7 +51,7 @@ export default function Signup() {
             setUser(data)
             navigate("/home")
         }
-    }, [data, error, navigate])
+    }, [data, error, navigate, setUser])
 
     if (error) return <p>Error: {error}</p>
 
